@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Workspaces;
 
+
 use Livewire\Component;
 
 class Index extends Component
@@ -11,3 +12,4 @@ class Index extends Component
         return view('livewire.workspaces.index');
     }
 }
+ 

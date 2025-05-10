@@ -13,7 +13,9 @@ class Create extends Component
     
     public function save() 
     {
-        $this->form->store();
+        $workspace = $this->form->store();
+
+        $this->dispatch('workspaceCreated', $workspace->id);
     }
 
     public function render()

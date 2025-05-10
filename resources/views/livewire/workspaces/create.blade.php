@@ -4,14 +4,16 @@
         <div class="card-body">
             <h5 class="card-title">New Workspace</h5>
             <form wire:submit="save">
-                <div class="mb-4">
+                <div class="mb-2">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" wire:model="form.name" placeholder="Enter your name">
                     @error('form.name') 
                         <small class="d-block mt-1 text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <div class="flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
             </form>
         </div>
     </div>
