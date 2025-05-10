@@ -1,0 +1,14 @@
+version: '3'
+services:
+  task-tracker-postgre:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - TZ=Asia/Jakarta
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=s3cret
+      - POSTGRES_DB=reverse_etl
+    ports:
+      - '5432:5432'
+    volumes: 
+      - ./docker_volumes/postgre:/var/lib/postgresql/data

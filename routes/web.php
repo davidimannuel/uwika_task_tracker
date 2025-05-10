@@ -1,24 +1,16 @@
 <?php
 
-use App\Livewire\Settings\Appearance;
-use App\Livewire\Settings\Password;
-use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
-
-    Route::get('settings/profile', Profile::class)->name('settings.profile');
-    Route::get('settings/password', Password::class)->name('settings.password');
-    Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+// Customize default redirect after login
+Route::get('/home', function () {
+    return redirect('/'); // e.g. /dashboard or /tasks
 });
 
-require __DIR__.'/auth.php';
+Route::get('/login', \App\Livewire\Login::class)->name('login')->middleware('guest');
+Route::post('/logout', \App\Http\Controllers\LogoutController::class)->name('logout')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', \App\Livewire\Home::class)->name('home');
+    Route::get('/workspaces', App\Livewire\Workspaces\Index::class)->name('workspaces.index');
+});
