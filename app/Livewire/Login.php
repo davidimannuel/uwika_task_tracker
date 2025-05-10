@@ -10,7 +10,8 @@ class Login extends Component
 {
     public LoginForm $form;
 
-    public function login() {
+    public function login() 
+    {
         $this->form->login();
     }
 

@@ -1,6 +1,9 @@
 run:
 	php artisan serve
 
+run-npm:
+	npm run dev
+
 migrate:
 	php artisan migrate
 
