@@ -12,8 +12,16 @@ class Index extends Component
     use WithPagination;
 
     public Workspace $workspace;
+    public ?int $selectedWorkspaceId = null;
     public bool $loadTasksData = false;
     public bool $showCreateForm = false;
+
+    public function mount(Workspace $workspace)
+    {
+        $this->workspace = $workspace;
+        $this->selectedWorkspaceId = $workspace->id;
+        $this->loadTasksData = true;
+    }
 
     #[On('task-created')]
     #[On('task-updated')]
@@ -31,7 +39,10 @@ class Index extends Component
 
     public function loadTasks()
     {
-        $this->loadTasksData = true;
+        if ($this->selectedWorkspaceId) {
+            $this->workspace = Workspace::findOrFail($this->selectedWorkspaceId);
+            $this->loadTasksData = true;
+        }
     }
 
     public function render()

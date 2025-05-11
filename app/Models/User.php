@@ -76,6 +76,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the workspace memberships for the user
+     */
+    public function workspaceMembers(): HasMany
+    {
+        return $this->hasMany(Member::class);
+    }
+
+    /**
      * Get the tasks created by the user
      */
     public function createdTasks(): HasMany

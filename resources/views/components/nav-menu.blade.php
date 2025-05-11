@@ -7,7 +7,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <x-nav-link :active="request()->routeIs('home')" href="{{ route('home') }}">Home</x-nav-link>
-        <x-nav-link :active="request()->routeIs('workspaces.*')" href="{{ route('workspaces.index') }}">Workspaces</x-nav-link>
+        @auth
+        <x-nav-link :active="request()->routeIs('workspaces.index')" href="{{ route('workspaces.index') }}">Workspaces</x-nav-link>
+          @if($firstWorkspace = Auth::user()->workspaces()->first())
+            <x-nav-link :active="request()->routeIs('workspaces.tasks.*')" href="{{ route('workspaces.tasks.index', $firstWorkspace) }}">Tasks</x-nav-link>
+          @endif
+        @endauth
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           @auth

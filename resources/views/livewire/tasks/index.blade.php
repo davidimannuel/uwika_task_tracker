@@ -1,6 +1,24 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Tasks</h2>
+        <div class="d-flex align-items-center gap-3">
+            <form wire:submit="loadTasks" class="d-flex align-items-center gap-2">
+                <select class="form-select" wire:model="selectedWorkspaceId">
+                    <option value="">Select Workspace</option>
+                    @foreach(Auth::user()->workspaceMembers()->with('workspace')->get() as $member)
+                        <option value="{{ $member->workspace->id }}" @selected($member->workspace->id === $workspace->id)>
+                            {{ $member->workspace->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i>
+                </button>
+            </form>
+            <div class="ms-3">
+                <h2 class="mb-0">Tasks</h2>
+                <small class="text-muted">{{ $workspace->name }}</small>
+            </div>
+        </div>
         <button class="btn btn-primary" wire:click="$toggle('showCreateForm')">
             <i class="bi bi-plus-lg"></i> New Task
         </button>
