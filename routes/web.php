@@ -13,4 +13,5 @@ Route::post('/logout', \App\Http\Controllers\LogoutController::class)->name('log
 Route::middleware('auth')->group(function () {
     Route::get('/', \App\Livewire\Home::class)->name('home');
     Route::get('/workspaces', App\Livewire\Workspaces\Index::class)->name('workspaces.index');
+    Route::get('/workspaces/{workspace}/tasks', App\Livewire\Tasks\Index::class)->name('workspaces.tasks.index');
 });

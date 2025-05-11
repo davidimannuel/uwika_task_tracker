@@ -34,7 +34,7 @@ class WorkspaceForm extends Form
 
         $this->reset();
 
-        session()->flash('success-create', "Workspace created successfully.");
+        session()->flash('workspaceCreated', "Workspace created successfully.");
 
         return $workspace;
     }

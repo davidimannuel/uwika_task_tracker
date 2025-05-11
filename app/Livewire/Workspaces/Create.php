@@ -17,7 +17,7 @@ class Create extends Component
         
         $this->form->reset();
 
-        $this->dispatch('workspaceCreated', $workspace->id);
+        $this->dispatch('workspace-created', message: 'Workspace created successfully!');
     }
 
     public function render()

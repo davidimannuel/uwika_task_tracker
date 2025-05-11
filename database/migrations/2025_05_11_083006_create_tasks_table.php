@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Workspace::class)->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('status')->default('todo');
+            $table->string('status')->default('todo'); // todo, in_progress, done
             $table->dateTime('scheduled_at');
             $table->dateTime('due_at');
             $table->foreignIdFor(User::class, 'assigned_to')->nullable()->constrained()->nullOnDelete();

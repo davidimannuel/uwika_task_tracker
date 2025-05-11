@@ -21,6 +21,10 @@ class Task extends Model
         'created_by',
     ];
 
+    protected $attributes = [
+        'status' => 'todo',
+    ];
+
     protected $casts = [
         'scheduled_at' => 'datetime',
         'due_at' => 'datetime',

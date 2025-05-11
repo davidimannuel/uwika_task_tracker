@@ -1,5 +1,4 @@
 <div>
-    <x-alert name="success-create" type="success" />
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">New Workspace</h5>

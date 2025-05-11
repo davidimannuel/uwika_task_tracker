@@ -33,11 +33,11 @@ class Row extends Component
         $updatedWorkspace = $this->form->update($this->workspace);
 
         if ($updatedWorkspace) {
-            $this->workspace->refresh(); // Refresh the model data
+            $this->workspace->refresh();
             $this->isEditing = false;
-            session()->flash('status', 'Workspace updated successfully!');
+            $this->dispatch('workspace-updated', message: 'Workspace updated successfully!');
         } else {
-            session()->flash('error', 'Failed to update workspace.');
+            $this->dispatch('workspace-error', message: 'Failed to update workspace.');
         }
     }
 
@@ -45,8 +45,7 @@ class Row extends Component
     {
         $this->authorize('delete', $this->workspace);
         $this->workspace->delete();
-        $this->dispatch('workspaceDeleted', $this->workspace->id);
-        session()->flash('status', 'Workspace deleted successfully!');
+        $this->dispatch('workspace-deleted', message: 'Workspace deleted successfully!');
     }
 
     public function render()

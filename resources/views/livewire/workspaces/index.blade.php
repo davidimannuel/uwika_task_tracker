@@ -4,13 +4,6 @@
 
     <hr>
 
-    {{-- Display status messages --}}
-    @if (session()->has('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
-
     {{-- List of workspaces section - will be lazy-loaded --}}
     <div wire:init="loadWorkspaces">
         @if ($workspacesForView)
@@ -34,4 +27,12 @@
             <x-loading-placeholder text="Fetching data..." minHeight="250px" spinnerSize="3rem" />
         @endif
     </div>
+
+    @script
+    <script>
+        $wire.on('show-alert', (event) => {
+            alert(event.message);
+        });
+    </script>
+    @endscript
 </div>

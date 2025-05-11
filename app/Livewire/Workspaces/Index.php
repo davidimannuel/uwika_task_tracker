@@ -14,11 +14,15 @@ class Index extends Component
 
     public bool $loadWorkspacesData = false; // Flag to control data loading
 
-    #[On('workspaceCreated')]
-    #[On('workspaceDeleted')]
-    public function refreshList()
+    #[On('workspace-created')]
+    #[On('workspace-updated')]
+    #[On('workspace-deleted')]
+    #[On('workspace-error')]
+    public function handleAlert($message, $type = 'success')
     {
-        if ($this->loadWorkspacesData) {
+        $this->dispatch('show-alert', message: $message);
+        
+        if ($type === 'success') {
             $this->resetPage();
         }
     }

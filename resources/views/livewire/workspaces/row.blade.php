@@ -1,6 +1,8 @@
 {{-- filepath: resources/views/livewire/workspaces/row.blade.php --}}
 <div class="card mb-2">
     <div class="card-body">
+        <x-alert name="workspaceUpdated" type="success" />
+        <x-alert name="workspaceError" type="danger" />
         @if ($isEditing)
             <div class="mb-3">
                 <label class="form-label">Name</label>
@@ -41,8 +43,9 @@
                         @endif
                     </div>
                 </div>
-                @if($member && in_array($member->role, ['owner', 'admin']))
-                    <div class="col-auto d-flex align-items-start">
+                <div class="col-auto d-flex align-items-start">
+                    <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-info btn-sm me-1">Tasks</a>
+                    @if($member && in_array($member->role, ['owner', 'admin']))
                         <button wire:key="edit-btn-{{ $workspace->id }}" class="btn btn-primary btn-sm me-1" wire:click="toggleEdit">Edit</button>
                         <button
                             wire:key="delete-btn-{{ $workspace->id }}"
@@ -50,8 +53,8 @@
                             wire:click="deleteWorkspace"
                             wire:confirm="Are you sure you want to delete '{{ $workspace->name }}'? This action cannot be undone."
                         >Delete</button>
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
         @endif
     </div>
