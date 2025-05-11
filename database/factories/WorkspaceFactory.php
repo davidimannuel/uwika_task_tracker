@@ -17,7 +17,7 @@ class WorkspaceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->company(),
+            'name' => fake()->text(10),
         ];
     }
 }

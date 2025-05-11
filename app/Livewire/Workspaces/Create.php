@@ -14,6 +14,8 @@ class Create extends Component
     public function save() 
     {
         $workspace = $this->form->store();
+        
+        $this->form->reset();
 
         $this->dispatch('workspaceCreated', $workspace->id);
     }
