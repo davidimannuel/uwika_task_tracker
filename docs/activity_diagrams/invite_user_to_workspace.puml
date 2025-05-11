@@ -1,0 +1,20 @@
+@startuml
+title Activity Diagram - Invite User to Workspace
+start
+
+:User opens "Manage Members" menu;
+
+:User enters invitee's email;
+
+:System checks if user exists;
+
+if (User not found?) then (Yes)
+    :Show error: "User not found";
+    stop
+else (No)
+    :System adds user to workspace with "pending" status;
+    ' :Send notification or email to invited user;
+endif
+
+stop
+@enduml

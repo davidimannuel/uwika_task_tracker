@@ -1,0 +1,22 @@
+@startuml task_tracker
+
+actor User
+
+User -> (Register)
+User -> (Login)
+User -> (Logout)
+
+User --> (Create Workspace)
+User ---> (Read Workspace)
+User ---> (Edit Workspace)
+User ---> (Delete Workspace)
+User -----> (Invite Other User to Workspace)
+User -----> (Accept Workspace Invitation)
+User -----> (Reject Workspace Invitation)
+User ---> (Create Task)
+User ---> (Read Task)
+User ---> (Edit Task)
+User ---> (Delete Task)
+User ---> (Reschedule Task)
+
+@enduml

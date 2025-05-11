@@ -1,0 +1,83 @@
+' Visibility Markers: Visibility markers indicate the accessibility of attributes and methods within a class.
+' + (Public): The attribute or method is accessible from any class.
+' - (Private): The attribute or method is only accessible within the same class.
+' # (Protected): The attribute or method is accessible within the same class and its subclasses.
+' ~ (Package): The attribute or method is accessible within the same package.
+
+' alphanumeric = alphabet and number
+@startuml task_tracker
+
+class User {
+    - id : number
+    - name : alphanumeric
+    - email : alphanumeric
+    - password : alphanumeric
+    - status : alphabet
+    --
+    + register(data) : (success / failed)
+    + login(email, password) : (success / failed)
+    + logout() : (success / failed)
+    + comparePassword(inputPassword : alphanumeric) : bool
+    + createWorkspace(data Workspace) : (success / failed)
+    + editWorkspace(workspaceId : number, data Workspace) : (success / failed)
+    + deleteWorkspace(workspaceId) : (success / failed)
+    + inviteUserToWorkspace(workspaceId : number, userId) : (success / failed)
+    + removeUserFromWorkspace(workspaceId : number, userId) : (success / failed)
+    + acceptWorkspaceInvitation(workspaceId : number) : (success / failed)
+    + rejectWorkspaceInvitation(workspaceId : number) : (success / failed)
+    + readWorkspaces() : List<Workspace>
+    + createTask(workspaceId : number, data Task) : (success / failed)
+    + editTask(taskId : number, data Task) : (success / failed)
+    + deleteTask(taskId) : (success / failed)
+    + readTasks(workspaceId) : List<Task>
+    + rescheduleTask(taskId : number, newDate : timestamp) : (success / failed)
+    + markTaskAsInProgress(taskId : number) : (success / failed)
+    + markTaskAsDone(taskId : number) : (success / failed)
+}
+
+class Workspace {
+    - id : number
+    - name : alphanumeric
+    - ownerId : number
+    --
+    + getId() : number
+    + getOwnerId() : number
+    + setName(name : alphanumeric) : (success / failed)
+}
+
+class WorkspaceMember {
+    - workspaceId : number
+    - userId : number
+    - status : alphabet
+    --
+    + linkToWorkspace(workspaceId : number)
+    + linkToUser(userId : number)
+    + setStatus(status : alphabet) : (success / failed)
+    + getStatus() : alphabet
+}
+
+Workspace "1" --> "0..*" WorkspaceMember : has
+User "1" --> "0..*" WorkspaceMember : joins
+
+class Task {
+    - id : number
+    - workspaceId : number
+    - title : alphanumeric
+    - description : alphanumeric
+    - status : alphabet
+    - scheduledAt : timestamp
+    - dueAt : timestamp
+    - isRecurring : bool
+    - repeatUntilDate : timestamp
+    - repeatMaxCount : number
+    - assignedTo : number
+    --
+    + autoGenerateNextRecurring() : Task
+    + isRecurringEnded() : bool
+    + canBeRescheduled() : bool
+}
+
+Workspace "1" --> "0..*" Task : has
+User "1" --> "0..*" Task : assigned
+
+@enduml

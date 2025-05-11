@@ -1,0 +1,20 @@
+@startuml
+title Activity Diagram - Reschedule Task
+start
+
+:User opens "Task Details" or "Reschedule" menu;
+
+:System loads current task information;
+
+:User selects new date and/or time;
+
+if (Selected date is in the past?) then (Yes)
+    :Show error: "Cannot reschedule to past date";
+    stop
+else (No)
+    :System updates task's scheduled date;
+    :Show confirmation: "Task rescheduled successfully";
+endif
+
+stop
+@enduml

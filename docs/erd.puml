@@ -1,0 +1,48 @@
+@startuml task_tracker_erd
+
+entity User {
+    * id : int <<PK>>
+    --
+    name : varchar
+    email : varchar
+    password : varchar
+    status : varchar
+}
+
+entity Workspace {
+    * id : int <<PK>>
+    --
+    name : varchar
+    ownerId : int <<FK>>
+}
+
+entity WorkspaceMember {
+    * workspaceId : int <<PK>>
+    * userId : int <<PK>>
+    --
+    status : varchar
+}
+
+entity Task {
+    * id : int <<PK>>
+    --
+    workspaceId : int <<FK>>
+    title : varchar
+    description : text
+    status : varchar
+    scheduledAt : timestamp
+    dueAt : timestamp
+    isRecurring : boolean
+    repeatUntilDate : timestamp
+    repeatMaxCount : int
+    assignedTo : int <<FK>>
+}
+
+' Relationships
+User ||--o{ Workspace : owns
+User ||--o{ WorkspaceMember : joins
+Workspace ||--o{ WorkspaceMember : has
+Workspace ||--o{ Task : has
+User ||--o{ Task : assigned
+
+@enduml

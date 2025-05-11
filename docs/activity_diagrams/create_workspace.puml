@@ -1,0 +1,20 @@
+@startuml
+title Activity Diagram - Create Workspace
+start
+
+:User clicks "Create Workspace";
+
+:User enters workspace name;
+
+:System validates input;
+
+if (Input invalid?) then (Yes)
+    :Show error: "Workspace name is required";
+    stop
+else (No)
+    :System saves workspace with current user as owner;
+    :Redirect to workspace dashboard;
+endif
+
+stop
+@enduml

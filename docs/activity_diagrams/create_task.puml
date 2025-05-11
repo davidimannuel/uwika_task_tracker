@@ -1,0 +1,23 @@
+@startuml
+title Activity Diagram - Create Task
+start
+
+:User selects a workspace;
+
+:User clicks "Create Task";
+
+:User enters task details (title, description, assignee, schedule date, due date, etc);
+
+:System validates input;
+
+if (Input invalid?) then (Yes)
+    :Show error message;
+    stop
+else (No)
+    :System saves task under selected workspace;
+    :Assign task to user (if specified);
+    :Display task in task list;
+endif
+
+stop
+@enduml

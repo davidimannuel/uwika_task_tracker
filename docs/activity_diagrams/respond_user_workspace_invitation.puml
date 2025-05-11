@@ -1,0 +1,21 @@
+@startuml
+title Activity Diagram - Respond to Workspace Invitation
+start
+
+:User opens "Workspace Invitations" menu;
+
+:System displays list of pending invitations;
+
+:User selects an invitation;
+
+if (Accept or Reject?) then (Accept)
+    :System updates status = "accepted";
+    :User is now a member of the workspace;
+    :Redirect user to workspace dashboard;
+else (Reject)
+    :System updates status = "declined";
+    :Remove or mark invitation as declined;
+endif
+
+stop
+@enduml
