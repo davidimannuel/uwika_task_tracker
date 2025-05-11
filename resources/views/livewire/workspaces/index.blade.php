@@ -19,7 +19,6 @@
                 @forelse ($workspacesForView as $workspace)
                     <livewire:workspaces.row
                         :workspace="$workspace"
-                        :rownumber="$loop->index + $workspacesForView->firstItem()"
                         wire:key="workspace-row-{{ $workspace->id }}" />
                 @empty
                     <p>No workspaces found. Create one above!</p>

@@ -13,7 +13,7 @@ class WorkspacePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,9 @@ class WorkspacePolicy
      */
     public function view(User $user, Workspace $workspace): bool
     {
-        return false;
+        return $workspace->members()
+            ->where('user_id', $user->id)
+            ->exists();
     }
 
     /**
@@ -29,7 +31,7 @@ class WorkspacePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +39,10 @@ class WorkspacePolicy
      */
     public function update(User $user, Workspace $workspace): bool
     {
-        return $user->id === $workspace->owner_id;
+        return $workspace->members()
+            ->where('user_id', $user->id)
+            ->whereIn('role', ['owner', 'admin'])
+            ->exists();
     }
 
     /**
@@ -45,7 +50,10 @@ class WorkspacePolicy
      */
     public function delete(User $user, Workspace $workspace): bool
     {
-        return $user->id === $workspace->owner_id;
+        return $workspace->members()
+            ->where('user_id', $user->id)
+            ->whereIn('role', ['owner', 'admin'])
+            ->exists();
     }
 
     /**

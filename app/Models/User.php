@@ -59,8 +59,35 @@ class User extends Authenticatable
             ->implode('');
     }
 
+    /**
+     * Get the workspaces created by the user
+     */
+    public function createdWorkspaces(): HasMany
+    {
+        return $this->hasMany(Workspace::class, 'created_by');
+    }
+
+    /**
+     * Get the workspaces where the user is a member
+     */
     public function workspaces(): HasMany
     {
-        return $this->hasMany(Workspace::class,'owner_id');
+        return $this->hasMany(Member::class);
+    }
+
+    /**
+     * Get the tasks created by the user
+     */
+    public function createdTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'created_by');
+    }
+
+    /**
+     * Get the tasks assigned to the user
+     */
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
     }
 }

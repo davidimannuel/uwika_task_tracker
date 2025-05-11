@@ -1,35 +1,57 @@
 {{-- filepath: resources/views/livewire/workspaces/row.blade.php --}}
 <div class="card mb-2">
-    <div class="card-body d-flex justify-content-between align-items-center">
+    <div class="card-body">
         @if ($isEditing)
-            <div class="flex-grow-1 me-2">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
                 <input
                     type="text"
-                    class="form-control form-control-sm"
+                    class="form-control"
                     wire:model.defer="form.name"
                     wire:keydown.enter="saveEdit"
                     wire:keydown.escape="toggleEdit">
                 @error('form.name') <small class="text-danger d-block mt-1">{{ $message }}</small> @enderror
             </div>
-            <div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea
+                    class="form-control"
+                    wire:model.defer="form.description"
+                    rows="3"></textarea>
+                @error('form.description') <small class="text-danger d-block mt-1">{{ $message }}</small> @enderror
+            </div>
+            <div class="d-flex justify-content-end">
                 <button wire:key="save-btn-{{ $workspace->id }}" class="btn btn-success btn-sm me-1" wire:click="saveEdit">Save</button>
                 <button wire:key="cancel-btn-{{ $workspace->id }}" class="btn btn-secondary btn-sm" wire:click="toggleEdit">Cancel</button>
             </div>
         @else
-            <div class="flex-grow-1">
-                {{ $rownumber }}. {{ $workspace->name }}
-                @if($workspace->user)
-                    <small class="text-muted d-block">Owner: {{ $workspace->user->name }}</small>
+            <div class="row">
+                <div class="col">
+                    <h5 class="mb-1">{{ $workspace->name }}</h5>
+                    @if($workspace->description)
+                        <p class="text-muted mb-1">{{ $workspace->description }}</p>
+                    @endif
+                    <div class="text-muted small">
+                        Created by: {{ $workspace->creator->name }} ({{ $workspace->creator->email }})
+                        @php
+                            $member = $workspace->members->where('user_id', auth()->id())->first();
+                        @endphp
+                        @if($member)
+                            <span class="ms-2">• Your role: {{ ucfirst($member->role) }}</span>
+                        @endif
+                    </div>
+                </div>
+                @if($member && in_array($member->role, ['owner', 'admin']))
+                    <div class="col-auto d-flex align-items-start">
+                        <button wire:key="edit-btn-{{ $workspace->id }}" class="btn btn-primary btn-sm me-1" wire:click="toggleEdit">Edit</button>
+                        <button
+                            wire:key="delete-btn-{{ $workspace->id }}"
+                            class="btn btn-danger btn-sm"
+                            wire:click="deleteWorkspace"
+                            wire:confirm="Are you sure you want to delete '{{ $workspace->name }}'? This action cannot be undone."
+                        >Delete</button>
+                    </div>
                 @endif
-            </div>
-            <div>
-                <button wire:key="edit-btn-{{ $workspace->id }}" class="btn btn-primary btn-sm me-1" wire:click="toggleEdit">Edit</button>
-                <button
-                    wire:key="delete-btn-{{ $workspace->id }}"
-                    class="btn btn-danger btn-sm"
-                    wire:click="deleteWorkspace"
-                    wire:confirm="Are you sure you want to delete '{{ $workspace->name }}'? This action cannot be undone."
-                >Delete</button>
             </div>
         @endif
     </div>

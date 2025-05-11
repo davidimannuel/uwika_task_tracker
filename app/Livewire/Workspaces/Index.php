@@ -18,12 +18,9 @@ class Index extends Component
     #[On('workspaceDeleted')]
     public function refreshList()
     {
-        // If data has been loaded, reset to the first page to show changes accurately
         if ($this->loadWorkspacesData) {
             $this->resetPage();
         }
-        // The component will automatically re-render due to the event,
-        // and the render method will fetch fresh data.
     }
 
     public function loadWorkspaces()
@@ -37,8 +34,17 @@ class Index extends Component
         // sleep(3); // Simulate a delay for loading data, so you can see the placeholder in action
         $workspaces = null;
         if ($this->loadWorkspacesData) {
-            $workspaces = Workspace::with('user')
-                ->where('owner_id', Auth::id())
+            $workspaces = Workspace::query()
+                ->with([
+                    'creator:id,name,email',
+                    'members' => function ($query) {
+                        $query->select('id', 'workspace_id', 'user_id', 'role')
+                            ->with('user:id,name,email');
+                    }
+                ])
+                ->whereHas('members', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })
                 ->latest()
                 ->paginate(5);
         }

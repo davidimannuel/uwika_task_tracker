@@ -2,14 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Member;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Workspace>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Member>
  */
-class WorkspaceFactory extends Factory
+class MemberFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +20,9 @@ class WorkspaceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->company(),
-            'description' => fake()->paragraph(),
-            'created_by' => User::factory(),
+            'workspace_id' => Workspace::factory(),
+            'user_id' => User::factory(),
+            'role' => fake()->randomElement(['owner', 'admin', 'member']),
         ];
     }
-}
+} 

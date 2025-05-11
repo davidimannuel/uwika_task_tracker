@@ -12,13 +12,25 @@ class WorkspaceForm extends Form
     #[Rule('required', 'string', 'min:3')]
     public string $name = '';
 
+    #[Rule('nullable', 'string')]
+    public ?string $description = '';
+
     public function store()
     {
         $validated = $this->validate();
 
         $user = Auth::user();
 
-        $workspace = $user->workspaces()->create($validated);
+        $workspace = Workspace::create([
+            ...$validated,
+            'created_by' => $user->id,
+        ]);
+
+        // Create member with owner role
+        $workspace->members()->create([
+            'user_id' => $user->id,
+            'role' => 'owner',
+        ]);
 
         $this->reset();
 
