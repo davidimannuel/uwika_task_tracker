@@ -4,7 +4,7 @@
             <form wire:submit="loadTasks" class="d-flex align-items-center gap-2">
                 <select class="form-select" wire:model="selectedWorkspaceId">
                     <option value="">Select Workspace</option>
-                    @foreach(Auth::user()->workspaceMembers()->with('workspace')->get() as $member)
+                    @foreach(Auth::user()->workspaceMembers as $member)
                         <option value="{{ $member->workspace->id }}" @selected($member->workspace->id === $workspace->id)>
                             {{ $member->workspace->name }}
                         </option>

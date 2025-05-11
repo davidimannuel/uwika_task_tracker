@@ -80,7 +80,7 @@ class User extends Authenticatable
      */
     public function workspaceMembers(): HasMany
     {
-        return $this->hasMany(Member::class);
+        return $this->hasMany(Member::class)->with('workspace');
     }
 
     /**
