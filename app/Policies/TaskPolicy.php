@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class TaskPolicy
 {
@@ -60,5 +61,15 @@ class TaskPolicy
             ->where('user_id', $user->id)
             ->whereIn('role', ['owner', 'admin'])
             ->exists();
+    }
+
+    public function updateStatus(User $user, Task $task): bool
+    {
+        // admin, owner, atau assignee
+        return $task->workspace->members()
+            ->where('user_id', $user->id)
+            ->whereIn('role', ['owner', 'admin'])
+            ->exists()
+            || $task->assigned_to === $user->id;
     }
 } 

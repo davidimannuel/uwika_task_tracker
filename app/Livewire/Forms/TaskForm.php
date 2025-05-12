@@ -16,7 +16,7 @@ class TaskForm extends Form
     #[Rule('nullable', 'string')]
     public ?string $description = '';
 
-    #[Rule('required', 'string', 'in:todo,in_progress,done')]
+    #[Rule('required', 'string', 'in:todo,in_progress,done,closed')]
     public string $status = 'todo';
 
     #[Rule('nullable', 'date')]
@@ -35,6 +35,7 @@ class TaskForm extends Form
         $task = $workspace->tasks()->create([
             ...$validated,
             'created_by' => Auth::id(),
+            'status' => $validated['status'] ?? 'todo',
         ]);
 
         $this->reset();
@@ -47,6 +48,23 @@ class TaskForm extends Form
     public function update(Task $task)
     {
         $validated = $this->validate();
+        $oldStatus = $task->status;
+        $newStatus = $validated['status'] ?? $oldStatus;
+
+        // Handle status changes and timestamps
+        if ($oldStatus !== $newStatus) {
+            switch ($newStatus) {
+                case 'in_progress':
+                    $validated['started_at'] = now();
+                    break;
+                case 'done':
+                    $validated['finished_at'] = now();
+                    break;
+                case 'closed':
+                    $validated['closed_at'] = now();
+                    break;
+            }
+        }
 
         $task->fill($validated);
         $task->save();

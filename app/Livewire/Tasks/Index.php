@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Tasks;
 
+use App\Models\Task;
 use App\Models\Workspace;
+use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,15 +14,45 @@ class Index extends Component
     use WithPagination;
 
     public Workspace $workspace;
-    public ?int $selectedWorkspaceId = null;
-    public bool $loadTasksData = false;
+    public ?string $status = null;
+    public ?string $scheduledAtStart = null;
+    public ?string $scheduledAtEnd = null;
+    public ?string $dueDate = null;
+    public string $orderBy = 'created_at';
+    public string $orderDirection = 'desc';
     public bool $showCreateForm = false;
+    public ?Task $editingTask = null;
 
     public function mount(Workspace $workspace)
     {
         $this->workspace = $workspace;
-        $this->selectedWorkspaceId = $workspace->id;
-        $this->loadTasksData = true;
+        $this->scheduledAtStart = Carbon::now()->subWeeks(2)->format('Y-m-d');
+        $this->scheduledAtEnd = Carbon::now()->addWeeks(2)->format('Y-m-d');
+    }
+
+    public function updatedOrderBy()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedOrderDirection()
+    {
+        $this->resetPage();
+    }
+
+    #[On('edit-task')]
+    public function editTask($data)
+    {
+        $this->editingTask = Task::find($data);
+    }
+
+    public function deleteTask($taskId)
+    {
+        $task = Task::find($taskId);
+        if ($task) {
+            $task->delete();
+            $this->dispatch('task-deleted', message: 'Task deleted successfully');
+        }
     }
 
     #[On('task-created')]
@@ -34,46 +66,60 @@ class Index extends Component
         if ($type === 'success') {
             $this->resetPage();
             $this->showCreateForm = false;
+            $this->editingTask = null;
         }
     }
 
-    public function loadTasks()
+    #[On('close-edit-form')]
+    public function handleCloseEditForm()
     {
-        if ($this->selectedWorkspaceId) {
-            $this->workspace = Workspace::findOrFail($this->selectedWorkspaceId);
-            $this->loadTasksData = true;
-        }
+        $this->editingTask = null;
+    }
+
+    public function closeEditForm()
+    {
+        $this->editingTask = null;
+    }
+
+    public function applyFilters()
+    {
+        $this->resetPage();
     }
 
     public function render()
     {
-        $tasks = null;
-        if ($this->loadTasksData) {
-            $tasks = $this->workspace->tasks()
-                ->with([
-                    'creator:id,name,email',
-                    'assignee:id,name,email'
-                ])
-                ->latest()
-                ->get();
+        $query = $this->workspace->tasks()
+            ->with([
+                'creator:id,name,email',
+                'assignee:id,name,email'
+            ]);
+
+        // Apply status filter
+        if ($this->status) {
+            $query->where('status', $this->status);
         }
 
-        $groupedTasks = [
-            'todo' => [],
-            'in_progress' => [],
-            'done' => [],
-        ];
-
-        if ($tasks) {
-            $groupedTasks = [
-                'todo' => $tasks->where('status', 'todo')->all(),
-                'in_progress' => $tasks->where('status', 'in_progress')->all(),
-                'done' => $tasks->where('status', 'done')->all(),
-            ];
+        // Apply date range filter
+        if ($this->scheduledAtStart) {
+            $query->where('scheduled_at', '>=', $this->scheduledAtStart);
         }
+        if ($this->scheduledAtEnd) {
+            $query->where('scheduled_at', '<=', $this->scheduledAtEnd);
+        }
+
+        // Apply due date filter
+        if ($this->dueDate) {
+            $query->whereDate('due_at', $this->dueDate);
+        }
+
+        // Apply ordering
+        $query->orderBy($this->orderBy, $this->orderDirection);
+
+        $tasks = $query->paginate(10);
 
         return view('livewire.tasks.index', [
-            'groupedTasks' => $groupedTasks,
+            'tasks' => $tasks,
+            'statuses' => ['todo', 'in_progress', 'done', 'closed'],
         ]);
     }
 } 

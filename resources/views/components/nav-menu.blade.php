@@ -10,7 +10,8 @@
         @auth
         <x-nav-link :active="request()->routeIs('workspaces.index')" href="{{ route('workspaces.index') }}">Workspaces</x-nav-link>
           @if($firstWorkspace = Auth::user()->workspaces()->first())
-            <x-nav-link :active="request()->routeIs('workspaces.tasks.*')" href="{{ route('workspaces.tasks.index', $firstWorkspace) }}">Tasks</x-nav-link>
+          <x-nav-link :active="request()->routeIs('workspaces.tasks.board')" href="{{ route('workspaces.tasks.board', $firstWorkspace) }}">Board</x-nav-link>
+          {{-- <x-nav-link :active="request()->routeIs('workspaces.tasks.*')" href="{{ route('workspaces.tasks.index', $firstWorkspace) }}">Tasks</x-nav-link> --}}
           @endif
         @endauth
       </ul>
