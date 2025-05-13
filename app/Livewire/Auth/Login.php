@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Auth;
 
 use App\Livewire\Forms\LoginForm;
 use Livewire\Component;
 
-#[\Livewire\Attributes\Layout('components.layouts.guest')]
 class Login extends Component
 {
     public LoginForm $form;
 
-    public function login() 
+    public function login()
     {
         $this->form->login();
     }
 
     public function render()
     {
-        return view('livewire.login');
+        return view('livewire.auth.login');
     }
-}
+} 
