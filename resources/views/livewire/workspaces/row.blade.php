@@ -45,6 +45,7 @@
                 </div>
                 <div class="col-auto d-flex align-items-start">
                     <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-info btn-sm me-1">Tasks</a>
+                    <a href="{{ route('workspaces.members', $workspace) }}" class="btn btn-secondary btn-sm me-1">Members</a>
                     @if($member && in_array($member->role, ['owner', 'admin']))
                         <button wire:key="edit-btn-{{ $workspace->id }}" class="btn btn-primary btn-sm me-1" wire:click="toggleEdit">Edit</button>
                         <button
