@@ -12,7 +12,7 @@ Route::get('/register', \App\Livewire\Auth\Register::class)->name('register')->m
 Route::post('/logout', \App\Http\Controllers\LogoutController::class)->name('logout')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', \App\Livewire\Home::class)->name('home');
+    Route::get('/', \App\Livewire\Dashboard::class)->name('home');
     Route::get('/profile', \App\Livewire\Auth\Profile::class)->name('profile');
     Route::get('/workspaces', App\Livewire\Workspaces\Index::class)->name('workspaces.index');
     Route::get('/workspaces/{workspace}/tasks', App\Livewire\Tasks\Index::class)->name('workspaces.tasks.index');
