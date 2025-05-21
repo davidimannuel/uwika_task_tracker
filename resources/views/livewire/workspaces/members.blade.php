@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
                         Invite Member
                     </button>
                 @endif
+                <a href="{{ route('workspaces.index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
             </div>
 
             <div class="mb-3">

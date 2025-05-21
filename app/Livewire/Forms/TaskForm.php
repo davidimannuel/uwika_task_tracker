@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Models\Task;
 use App\Models\Workspace;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Rule;
 use Livewire\Form;
 
@@ -32,17 +33,19 @@ class TaskForm extends Form
     {
         $validated = $this->validate();
 
-        $task = $workspace->tasks()->create([
-            ...$validated,
-            'created_by' => Auth::id(),
-            'status' => $validated['status'] ?? 'todo',
-        ]);
+        return DB::transaction(function () use ($workspace, $validated) {
+            $task = $workspace->tasks()->create([
+                ...$validated,
+                'created_by' => Auth::id(),
+                'status' => $validated['status'] ?? 'todo',
+            ]);
 
-        $this->reset();
+            $this->reset();
 
-        session()->flash('success-create', "Task created successfully.");
+            session()->flash('success-create', "Task created successfully.");
 
-        return $task;
+            return $task;
+        });
     }
 
     public function update(Task $task)
@@ -51,26 +54,19 @@ class TaskForm extends Form
         $oldStatus = $task->status;
         $newStatus = $validated['status'] ?? $oldStatus;
 
-        // Handle status changes and timestamps
-        if ($oldStatus !== $newStatus) {
-            switch ($newStatus) {
-                case 'in_progress':
-                    $validated['started_at'] = now();
-                    break;
-                case 'done':
-                    $validated['finished_at'] = now();
-                    break;
-                case 'closed':
-                    $validated['closed_at'] = now();
-                    break;
+        return DB::transaction(function () use ($task, $validated, $oldStatus, $newStatus) {
+            // Update task fields
+            $task->fill($validated);
+            $task->save();
+
+            // Handle status change
+            if ($oldStatus !== $newStatus) {
+                $task->updateStatus($newStatus);
             }
-        }
 
-        $task->fill($validated);
-        $task->save();
+            $this->reset();
 
-        $this->reset();
-
-        return $task;
+            return $task;
+        });
     }
 } 

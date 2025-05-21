@@ -23,8 +23,12 @@
                 @error('form.description') <small class="text-danger d-block mt-1">{{ $message }}</small> @enderror
             </div>
             <div class="d-flex justify-content-end">
-                <button wire:key="save-btn-{{ $workspace->id }}" class="btn btn-success btn-sm me-1" wire:click="saveEdit">Save</button>
-                <button wire:key="cancel-btn-{{ $workspace->id }}" class="btn btn-secondary btn-sm" wire:click="toggleEdit">Cancel</button>
+                <button wire:key="save-btn-{{ $workspace->id }}" class="btn btn-primary btn-sm me-1" wire:click="saveEdit">
+                    <i class="bi bi-check"></i>
+                </button>
+                <button wire:key="cancel-btn-{{ $workspace->id }}" class="btn btn-danger btn-sm" wire:click="toggleEdit">
+                    <i class="bi bi-x"></i>
+                </button>
             </div>
         @else
             <div class="row">
@@ -44,16 +48,23 @@
                     </div>
                 </div>
                 <div class="col-auto d-flex align-items-start">
-                    <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-info btn-sm me-1">Tasks</a>
-                    <a href="{{ route('workspaces.members', $workspace) }}" class="btn btn-secondary btn-sm me-1">Members</a>
+                    <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-info btn-sm me-1">
+                        <i class="bi bi-list-task"></i>
+                    </a>
+                    <a href="{{ route('workspaces.members', $workspace) }}" class="btn btn-secondary btn-sm me-1">
+                        <i class="bi bi-people"></i>
+                    </a>
                     @if($member && in_array($member->role, ['owner', 'admin']))
-                        <button wire:key="edit-btn-{{ $workspace->id }}" class="btn btn-primary btn-sm me-1" wire:click="toggleEdit">Edit</button>
+                        <button wire:key="edit-btn-{{ $workspace->id }}" class="btn btn-primary btn-sm me-1" wire:click="toggleEdit">
+                            <i class="bi bi-pencil"></i>
+                        </button>
                         <button
                             wire:key="delete-btn-{{ $workspace->id }}"
                             class="btn btn-danger btn-sm"
                             wire:click="deleteWorkspace"
-                            wire:confirm="Are you sure you want to delete '{{ $workspace->name }}'? This action cannot be undone."
-                        >Delete</button>
+                            wire:confirm="Are you sure you want to delete '{{ $workspace->name }}'? This action cannot be undone.">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     @endif
                 </div>
             </div>

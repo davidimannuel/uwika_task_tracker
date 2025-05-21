@@ -5,7 +5,7 @@
             <small class="text-muted">{{ $workspace->name }}</small>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('workspaces.tasks.board', $workspace) }}" class="btn btn-outline-primary">
+            <a href="{{ route('workspaces.tasks.board', $workspace) }}" class="btn btn-primary">
                 <i class="bi bi-kanban"></i> Board View
             </a>
             <button class="btn btn-primary" wire:click="$toggle('showCreateForm')">
@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Create New Task</h5>
-                    <button class="btn btn-sm btn-outline-secondary" wire:click="$toggle('showCreateForm')">
+                    <button class="btn btn-sm btn-secondary" wire:click="$toggle('showCreateForm')">
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
@@ -35,7 +35,7 @@
             <div class="card">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Edit Task</h5>
-                    <button class="btn btn-sm btn-outline-secondary" wire:click="closeEditForm">
+                    <button class="btn btn-sm btn-secondary" wire:click="closeEditForm">
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
@@ -105,11 +105,11 @@
                                 <td>{{ $task->creator->name }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-primary" wire:click="editTask({{ $task->id }})" title="View">
+                                        <button type="button" class="btn btn-sm btn-primary" wire:click="editTask({{ $task->id }})" title="View">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button 
-                                            type="button" class="btn btn-sm btn-outline-danger" 
+                                            type="button" class="btn btn-sm btn-danger" 
                                             wire:confirm="Are you sure you want to delete this?"
                                             wire:click="deleteTask({{ $task->id }})">
                                             <i class="bi bi-trash"></i>

@@ -17,6 +17,7 @@ class Board extends Component
     public $workspaceId;
     public $filterStartDate;
     public $filterEndDate;
+    public ?Task $taskToDuplicate = null;
 
     public function mount()
     {
@@ -118,6 +119,15 @@ class Board extends Component
             $this->showCreateForm = false;
             $this->editingTask = null;
         }
+    }
+
+    public function duplicateTask($taskId)
+    {
+        $task = Task::findOrFail($taskId);
+        $this->authorize('create', [Task::class, $task->workspace]);
+
+        $this->taskToDuplicate = $task;
+        $this->showCreateForm = true;
     }
 
     public function render()

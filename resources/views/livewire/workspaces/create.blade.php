@@ -18,7 +18,9 @@
                     @enderror
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check"></i>
+                    </button>
                 </div>
             </form>
         </div>

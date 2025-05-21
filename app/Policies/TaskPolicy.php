@@ -46,6 +46,10 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
+        if ($task->status === 'done' || $task->status === 'closed') {
+            return false;
+        }
+
         return $task->workspace->members()
             ->where('user_id', $user->id)
             ->whereIn('role', ['owner', 'admin'])
@@ -65,6 +69,9 @@ class TaskPolicy
 
     public function updateStatus(User $user, Task $task): bool
     {
+        if ($task->status === 'closed') {
+            return false;
+        }
         // admin, owner, atau assignee
         return $task->workspace->members()
             ->where('user_id', $user->id)

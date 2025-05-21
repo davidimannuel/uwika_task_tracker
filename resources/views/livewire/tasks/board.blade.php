@@ -33,7 +33,7 @@
                     class="form-control form-control-sm"
                     style="width: 140px;"
                 >
-                <button type="submit" class="btn btn-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;" title="Terapkan Filter">
+                <button type="submit" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;" title="Terapkan Filter">
                     <i class="bi bi-check"></i>
                 </button>
             </form>
@@ -63,7 +63,7 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <livewire:tasks.create :workspace="$workspace" />
+                    <livewire:tasks.create :workspace="$workspace" :taskToDuplicate="$taskToDuplicate" />
                 </div>
             </div>
         </div>
@@ -121,6 +121,13 @@
                                             title="View"
                                         >
                                             <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button 
+                                            class="btn btn-link btn-sm text-primary p-0"
+                                            wire:click="duplicateTask({{ $task->id }})"
+                                            title="Duplicate"
+                                        >
+                                            <i class="bi bi-files"></i>
                                         </button>
                                         <button 
                                             class="btn btn-link btn-sm text-danger p-0"
@@ -194,7 +201,15 @@
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button 
+                                            class="btn btn-link btn-sm text-primary p-0"
+                                            wire:click="duplicateTask({{ $task->id }})"
+                                            title="Duplicate"
+                                        >
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <button 
                                             class="btn btn-link btn-sm text-danger p-0"
+                                            wire:confirm="Are you sure you want to delete this?"
                                             wire:click="deleteTask({{ $task->id }})"
                                             title="Delete"
                                         >
@@ -264,7 +279,15 @@
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button 
+                                            class="btn btn-link btn-sm text-primary p-0"
+                                            wire:click="duplicateTask({{ $task->id }})"
+                                            title="Duplicate"
+                                        >
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <button 
                                             class="btn btn-link btn-sm text-danger p-0"
+                                            wire:confirm="Are you sure you want to delete this?"
                                             wire:click="deleteTask({{ $task->id }})"
                                             title="Delete"
                                         >
