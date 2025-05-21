@@ -28,13 +28,20 @@ class Dashboard extends Component
                 ->whereBetween('created_at', [$startOfQuarter, $endOfQuarter])
                 ->count(),
 
-            'due_this_month' => Task::whereIn('workspace_id', $workspaceIds)
+            'due_this_month_tasks' => Task::whereIn('workspace_id', $workspaceIds)
                 ->whereBetween('due_at', [$startOfMonth, $endOfMonth])
-                ->count(),
+                ->where('status', '!=', 'done')
+                ->with(['workspace'])
+                ->orderBy('due_at')
+                ->take(3)
+                ->get(),
 
-            'in_progress' => Task::whereIn('workspace_id', $workspaceIds)
+            'in_progress_tasks' => Task::whereIn('workspace_id', $workspaceIds)
                 ->where('status', 'in_progress')
-                ->count(),
+                ->with(['workspace'])
+                ->latest()
+                ->take(3)
+                ->get(),
 
             'completed_this_month' => Task::whereIn('workspace_id', $workspaceIds)
                 ->where('status', 'done')

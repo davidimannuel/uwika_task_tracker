@@ -12,7 +12,21 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title text-muted">Due This Month</h6>
-                    <h2 class="mb-0">{{ $taskStats['due_this_month'] }}</h2>
+                    <div class="mt-3">
+                        @forelse($taskStats['due_this_month_tasks'] as $task)
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0 text-truncate" style="max-width: 150px;">{{ $task->title }}</h6>
+                                    <small class="text-muted">{{ $task->workspace->name }}</small>
+                                </div>
+                                <a href="{{ route('workspaces.tasks.board', $task->workspace) }}" class="btn btn-sm btn-link">
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        @empty
+                            <p class="text-muted mb-0">No tasks due this month</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
@@ -20,7 +34,21 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title text-muted">In Progress</h6>
-                    <h2 class="mb-0">{{ $taskStats['in_progress'] }}</h2>
+                    <div class="mt-3">
+                        @forelse($taskStats['in_progress_tasks'] as $task)
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0 text-truncate" style="max-width: 150px;">{{ $task->title }}</h6>
+                                    <small class="text-muted">{{ $task->workspace->name }}</small>
+                                </div>
+                                <a href="{{ route('workspaces.tasks.board', $task->workspace) }}" class="btn btn-sm btn-link">
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        @empty
+                            <p class="text-muted mb-0">No tasks in progress</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>

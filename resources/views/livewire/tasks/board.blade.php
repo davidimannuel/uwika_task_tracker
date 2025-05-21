@@ -13,11 +13,12 @@
                             <option value="{{ $ws->id }}">{{ $ws->name }}</option>
                         @endforeach
                     </select>
-                    <button type="submit" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;" title="Pilih Workspace">
+                    <button type="submit" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;" title="Select Workspace">
                         <i class="bi bi-check"></i>
                     </button>
                 </form>
             </div>
+
             <div class="d-flex align-items-center gap-2 mb-2 mb-md-0">
                 <label class="form-label mb-0 me-2">Assigned To:</label>
                 <div class="d-flex align-items-center gap-2">
@@ -43,25 +44,6 @@
                     @endif
                 </div>
             </div>
-            <form wire:submit.prevent="applyFilters" class="d-flex align-items-center gap-2 mb-0">
-                <label class="form-label mb-0 me-2">Scheduled Date Range:</label>
-                <input 
-                    type="date" 
-                    wire:model="filterStartDate" 
-                    class="form-control form-control-sm"
-                    style="width: 140px;"
-                >
-                <span class="mx-1">to</span>
-                <input 
-                    type="date" 
-                    wire:model="filterEndDate" 
-                    class="form-control form-control-sm"
-                    style="width: 140px;"
-                >
-                <button type="submit" class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;" title="Terapkan Filter">
-                    <i class="bi bi-check"></i>
-                </button>
-            </form>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;" title="List View">
@@ -75,6 +57,90 @@
             >
                 <i class="bi bi-plus-lg"></i>
             </button>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-light">
+            <h6 class="mb-0">Date Filters</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Scheduled Date Range</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input 
+                                type="date" 
+                                wire:model="filterStartDate" 
+                                class="form-control form-control-sm"
+                            >
+                            <span class="mx-1">to</span>
+                            <input 
+                                type="date" 
+                                wire:model="filterEndDate" 
+                                class="form-control form-control-sm"
+                            >
+                            @if($filterStartDate || $filterEndDate)
+                                <button 
+                                    wire:click="clearScheduledDateFilter"
+                                    class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                    style="width:32px;height:32px;" 
+                                    title="Clear Scheduled Date Filter"
+                                >
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            @endif
+                        </div>
+                        <div class="btn-group btn-group-sm mt-2">
+                            <button type="button" class="btn btn-outline-secondary" wire:click="setDateRange('this_week')">This Week</button>
+                            <button type="button" class="btn btn-outline-secondary" wire:click="setDateRange('this_month')">This Month</button>
+                            <button type="button" class="btn btn-outline-secondary" wire:click="setDateRange('this_quarter')">This Quarter</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Due Date Range</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input 
+                                type="date" 
+                                wire:model="filterDueStartDate" 
+                                class="form-control form-control-sm"
+                            >
+                            <span class="mx-1">to</span>
+                            <input 
+                                type="date" 
+                                wire:model="filterDueEndDate" 
+                                class="form-control form-control-sm"
+                            >
+                            @if($filterDueStartDate || $filterDueEndDate)
+                                <button 
+                                    wire:click="clearDueDateFilter"
+                                    class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                    style="width:32px;height:32px;" 
+                                    title="Clear Due Date Filter"
+                                >
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            @endif
+                        </div>
+                        <div class="btn-group btn-group-sm mt-2">
+                            <button type="button" class="btn btn-outline-secondary" wire:click="setDueDateRange('this_week')">This Week</button>
+                            <button type="button" class="btn btn-outline-secondary" wire:click="setDueDateRange('this_month')">This Month</button>
+                            <button type="button" class="btn btn-outline-secondary" wire:click="setDueDateRange('this_quarter')">This Quarter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button 
+                    wire:click="clearAllFilters"
+                    class="btn btn-outline-secondary btn-sm"
+                >
+                    Clear All Filters
+                </button>
+            </div>
         </div>
     </div>
 
