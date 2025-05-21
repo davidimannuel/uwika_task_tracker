@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Database\Seeder;
+use Faker\Factory as FakerFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -49,10 +50,16 @@ class DatabaseSeeder extends Seeder
                     }
 
                     // Add some tasks
-                    Task::factory(5)->create([
+                    $faker = FakerFactory::create();
+                    Task::create([
                         'workspace_id' => $workspace->id,
-                        'created_by' => $user->id,
-                        'assigned_to' => $users->random()->id,
+                        'title' => $faker->sentence,
+                        'description' => $faker->paragraph,
+                        'status' => $faker->randomElement(['todo', 'in_progress', 'done']),
+                        'scheduled_at' => $faker->dateTimeBetween('-1 week', '+2 weeks'),
+                        'due_at' => $faker->dateTimeBetween('+1 week', '+3 weeks'),
+                        'assigned_to' => $workspace->members->random()->user_id,
+                        'created_by' => $workspace->members->random()->user_id,
                     ]);
                 });
         }

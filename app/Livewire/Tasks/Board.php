@@ -17,6 +17,7 @@ class Board extends Component
     public $workspaceId;
     public $filterStartDate;
     public $filterEndDate;
+    public $filterAssignee = '';
     public ?Task $taskToDuplicate = null;
 
     public function mount()
@@ -39,12 +40,19 @@ class Board extends Component
     {
         $this->editingTask = null;
         $this->showCreateForm = false;
+        $this->filterAssignee = '';
+        $this->taskToDuplicate = null;
     }
 
     public function applyFilters()
     {
         $this->startDate = $this->filterStartDate;
         $this->endDate = $this->filterEndDate;
+    }
+
+    public function clearAssigneeFilter()
+    {
+        $this->filterAssignee = '';
     }
 
     public function closeCreateForm()
@@ -153,6 +161,9 @@ class Board extends Component
         }
         if ($this->endDate) {
             $query->where('scheduled_at', '<=', $this->endDate);
+        }
+        if ($this->filterAssignee) {
+            $query->where('assigned_to', $this->filterAssignee);
         }
 
         $tasks = $query->get()->sortBy('scheduled_at');

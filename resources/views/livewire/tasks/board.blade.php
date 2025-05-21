@@ -18,6 +18,31 @@
                     </button>
                 </form>
             </div>
+            <div class="d-flex align-items-center gap-2 mb-2 mb-md-0">
+                <label class="form-label mb-0 me-2">Assigned To:</label>
+                <div class="d-flex align-items-center gap-2">
+                    <select 
+                        wire:model.live="filterAssignee" 
+                        class="form-select form-select-sm"
+                        style="width: 160px;"
+                    >
+                        <option value="">All Users</option>
+                        @foreach($workspace->members as $member)
+                            <option value="{{ $member->user->id }}">{{ $member->user->name }}</option>
+                        @endforeach
+                    </select>
+                    @if($filterAssignee)
+                        <button 
+                            wire:click="clearAssigneeFilter"
+                            class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                            style="width:32px;height:32px;" 
+                            title="Clear Filter"
+                        >
+                            <i class="bi bi-x"></i>
+                        </button>
+                    @endif
+                </div>
+            </div>
             <form wire:submit.prevent="applyFilters" class="d-flex align-items-center gap-2 mb-0">
                 <label class="form-label mb-0 me-2">Scheduled Date Range:</label>
                 <input 
