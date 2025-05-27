@@ -42,11 +42,11 @@ class Workspace {
     + getId() : number
     + getOwnerId() : number
     + setName(name : alphanumeric) : (success / failed)
-    + getMembers() : List<WorkspaceMember>
+    + getMembers() : List<Member>
     + getTasks() : List<Task>
 }
 
-class WorkspaceMember {
+class Member {
     - workspaceId : number
     - userId : number
     - status : alphabet
@@ -57,8 +57,8 @@ class WorkspaceMember {
     + getStatus() : alphabet
 }
 
-Workspace "1" --> "0..*" WorkspaceMember : has
-User "1" --> "0..*" WorkspaceMember : joins
+Workspace "1" --> "0..*" Member : has
+User "1" --> "0..*" Member : joins
 
 class Task {
     - id : number
