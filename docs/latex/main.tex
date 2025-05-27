@@ -7,12 +7,22 @@
 \usepackage{setspace}
 \usepackage{titling}
 \usepackage{caption}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+
+% Footer: page number in the center, institution name on the right
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\textbf{Universitas Widya Kartika}}
+
+% Optional: remove header line
+\renewcommand{\headrulewidth}{0pt}
 
 % Configure caption format
 \captionsetup{labelformat=empty}
 
 % Remove page numbers
-\pagestyle{empty}
+% \pagestyle{empty}
 
 \begin{document}
 
