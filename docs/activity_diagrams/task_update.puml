@@ -1,0 +1,26 @@
+@startuml task_update
+title Update Task Process
+
+|User|
+start
+:Click Edit Task;
+
+|System|
+:Show Edit Form;
+
+|User|
+:Update Task Details;
+
+|System|
+:Validate Form;
+
+if (Valid?) then (yes)
+  :Update Task;
+  :Show Success Message;
+else (no)
+  :Show Validation Errors;
+endif
+
+stop
+
+@enduml

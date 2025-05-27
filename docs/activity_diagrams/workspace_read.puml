@@ -1,0 +1,22 @@
+@startuml workspace_read
+title View Workspace Details Process
+
+|User|
+start
+:Access Dashboard;
+
+|System|
+:Load User's Workspaces;
+:Display Workspace List;
+
+|User|
+:View Workspace Details;
+
+|System|
+:Show Workspace Information;
+:Display Member List;
+:Display Task List;
+
+stop
+
+@enduml

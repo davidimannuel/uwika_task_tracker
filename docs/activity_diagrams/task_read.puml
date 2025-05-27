@@ -1,0 +1,54 @@
+@startuml task_read
+title View and Filter Tasks Process
+
+|User|
+start
+:Access Workspace;
+
+|System|
+:Load Tasks;
+:Display Task List/Board;
+
+|User|
+:Select Filter Options;
+
+if (Filter Type?) then (Status)
+  :Select Task Status;
+  |System|
+  :Filter by Status;
+elseif (Filter Type?) then (Assignee)
+  :Select Assignee;
+  |System|
+  :Filter by Assignee;
+elseif (Filter Type?) then (Scheduled Date)
+  :Select Date Range;
+  |System|
+  :Filter by Scheduled Date;
+elseif (Filter Type?) then (Due Date)
+  :Select Due Date Range;
+  |System|
+  :Filter by Due Date;
+elseif (Filter Type?) then (Clear Filters)
+  :Click Clear Filters;
+  |System|
+  :Reset All Filters;
+endif
+
+|System|
+:Apply Selected Filters;
+:Update Task Display;
+:Show Filtered Results;
+
+|User|
+:View Filtered Tasks;
+
+|System|
+:Display Task Details;
+:Show Task Status;
+:Show Assigned Users;
+:Show Scheduled Date;
+:Show Due Date;
+
+stop
+
+@enduml

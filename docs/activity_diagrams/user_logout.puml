@@ -1,0 +1,14 @@
+@startuml logout
+title User Logout Process
+
+|User|
+start
+:Click Logout;
+
+|System|
+:Log User Out;
+:Redirect to Login Page;
+
+stop
+
+@enduml

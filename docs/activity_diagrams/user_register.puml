@@ -1,0 +1,29 @@
+@startuml register
+title User Registration Process
+
+|User|
+start
+:Click Register;
+
+|System|
+:Show Registration Form;
+
+|User|
+:Fill Registration Form;
+
+|System|
+:Validate Form;
+
+if (Valid?) then (yes)
+  :Create User Account;
+  :Log User In;
+  :Redirect to Dashboard;
+else (no)
+  :Show Validation Errors;
+  |User|
+  :Correct Form;
+endif
+
+stop
+
+@enduml

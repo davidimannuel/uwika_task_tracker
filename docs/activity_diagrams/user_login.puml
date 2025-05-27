@@ -1,0 +1,28 @@
+@startuml login
+title User Login Process
+
+|User|
+start
+:Access Application;
+
+|System|
+:Show Login Form;
+
+|User|
+:Enter Credentials;
+
+|System|
+:Validate Credentials;
+
+if (Valid?) then (yes)
+  :Log User In;
+  :Redirect to Dashboard;
+else (no)
+  :Show Error Message;
+  |User|
+  :Retry Login;
+endif
+
+stop
+
+@enduml

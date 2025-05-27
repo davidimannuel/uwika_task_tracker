@@ -1,0 +1,29 @@
+@startuml profile_update_name
+title Update Profile Name Process
+
+|User|
+start
+:Access Profile Page;
+
+|System|
+:Load Current Profile Data;
+:Display Profile Form;
+
+|User|
+:Enter New Name;
+
+|System|
+:Validate Name Input;
+
+if (Valid?) then (yes)
+  :Update User Name;
+  :Show Success Message;
+else (no)
+  :Show Validation Error;
+  |User|
+  :Correct Name;
+endif
+
+stop
+
+@enduml

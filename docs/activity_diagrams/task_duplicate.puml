@@ -1,0 +1,31 @@
+@startuml task_duplicate
+title Duplicate Task Process
+
+|User|
+start
+:Click Duplicate Button on Task;
+
+|System|
+:Load Original Task Details;
+:Populate Create Form with Task Data;
+
+|User|
+:Review Pre-filled Task Details;
+:Modify Task Details if needed;
+
+|System|
+:Validate Form;
+
+if (Valid?) then (yes)
+  :Create New Task with Modified Details;
+  :Show Success Message;
+  :Refresh Task Board;
+else (no)
+  :Show Validation Errors;
+  |User|
+  :Correct Form;
+endif
+
+stop
+
+@enduml

@@ -12,27 +12,26 @@ class User {
     - name : alphanumeric
     - email : alphanumeric
     - password : alphanumeric
-    - status : alphabet
     --
     + register(data) : (success / failed)
     + login(email, password) : (success / failed)
     + logout() : (success / failed)
+    + editName(name : alphanumeric) : (success / failed)
+    + editPassword(password : alphanumeric) : (success / failed)
     + comparePassword(inputPassword : alphanumeric) : bool
     + createWorkspace(data Workspace) : (success / failed)
     + editWorkspace(workspaceId : number, data Workspace) : (success / failed)
     + deleteWorkspace(workspaceId) : (success / failed)
     + inviteUserToWorkspace(workspaceId : number, userId) : (success / failed)
     + removeUserFromWorkspace(workspaceId : number, userId) : (success / failed)
-    + acceptWorkspaceInvitation(workspaceId : number) : (success / failed)
-    + rejectWorkspaceInvitation(workspaceId : number) : (success / failed)
+    + leaveWorkspaceInvitation(workspaceId : number) : (success / failed)
     + readWorkspaces() : List<Workspace>
     + createTask(workspaceId : number, data Task) : (success / failed)
     + editTask(taskId : number, data Task) : (success / failed)
     + deleteTask(taskId) : (success / failed)
     + readTasks(workspaceId) : List<Task>
-    + rescheduleTask(taskId : number, newDate : timestamp) : (success / failed)
-    + markTaskAsInProgress(taskId : number) : (success / failed)
-    + markTaskAsDone(taskId : number) : (success / failed)
+    + updateTaskStatus(taskId : number, status : string) : (success / failed)
+    + duplicateTask(taskId : number) : (success / failed)
 }
 
 class Workspace {
@@ -43,6 +42,8 @@ class Workspace {
     + getId() : number
     + getOwnerId() : number
     + setName(name : alphanumeric) : (success / failed)
+    + getMembers() : List<WorkspaceMember>
+    + getTasks() : List<Task>
 }
 
 class WorkspaceMember {
@@ -67,17 +68,21 @@ class Task {
     - status : alphabet
     - scheduledAt : timestamp
     - dueAt : timestamp
-    - isRecurring : bool
-    - repeatUntilDate : timestamp
-    - repeatMaxCount : number
     - assignedTo : number
+    - startedAt : timestamp
+    - finishedAt : timestamp
+    - closedAt : timestamp
+    - createdBy : number
     --
-    + autoGenerateNextRecurring() : Task
-    + isRecurringEnded() : bool
-    + canBeRescheduled() : bool
+    + updateStatus(status : string) : (success / failed)
+    + canBeUpdated() : bool
+    + getAssignee() : User
+    + getCreator() : User
+    + getWorkspace() : Workspace
 }
 
 Workspace "1" --> "0..*" Task : has
 User "1" --> "0..*" Task : assigned
+User "1" --> "0..*" Task : created
 
 @enduml

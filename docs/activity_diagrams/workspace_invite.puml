@@ -1,0 +1,26 @@
+@startuml workspace_invite
+title Invite Member to Workspace Process
+
+|User|
+start
+:Click Invite Member;
+
+|System|
+:Show Invite Form;
+
+|User|
+:Enter Member Email;
+
+|System|
+:Validate Email;
+
+if (Valid?) then (yes)
+  :Add Member to Workspace;
+  :Show Success Message;
+else (no)
+  :Show Error Message;
+endif
+
+stop
+
+@enduml

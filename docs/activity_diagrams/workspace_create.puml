@@ -1,0 +1,27 @@
+@startuml workspace_create
+title Create New Workspace Process
+
+|User|
+start
+:Click Create Workspace;
+
+|System|
+:Show Create Form;
+
+|User|
+:Fill Workspace Details;
+
+|System|
+:Validate Form;
+
+if (Valid?) then (yes)
+  :Create Workspace;
+  :Add User as Owner;
+  :Show Success Message;
+else (no)
+  :Show Validation Errors;
+endif
+
+stop
+
+@enduml

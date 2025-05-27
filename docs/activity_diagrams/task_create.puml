@@ -1,0 +1,26 @@
+@startuml task_create
+title Create New Task Process
+
+|User|
+start
+:Click Create Task;
+
+|System|
+:Show Create Form;
+
+|User|
+:Fill Task Details;
+
+|System|
+:Validate Form;
+
+if (Valid?) then (yes)
+  :Create Task;
+  :Show Success Message;
+else (no)
+  :Show Validation Errors;
+endif
+
+stop
+
+@enduml

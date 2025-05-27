@@ -1,3 +1,4 @@
+' https://plantuml.com/ie-diagram
 @startuml task_tracker_erd
 
 entity User {
@@ -6,7 +7,6 @@ entity User {
     name : varchar
     email : varchar
     password : varchar
-    status : varchar
 }
 
 entity Workspace {
@@ -16,11 +16,13 @@ entity Workspace {
     ownerId : int <<FK>>
 }
 
-entity WorkspaceMember {
-    * workspaceId : int <<PK>>
-    * userId : int <<PK>>
+entity Member {
+    * id : int <<PK>>
+    * workspaceId : int <<FK>>
+    * userId : int <<FK>>
     --
     status : varchar
+    role : varchar
 }
 
 entity Task {
@@ -32,17 +34,23 @@ entity Task {
     status : varchar
     scheduledAt : timestamp
     dueAt : timestamp
-    isRecurring : boolean
-    repeatUntilDate : timestamp
-    repeatMaxCount : int
     assignedTo : int <<FK>>
+    createdBy : int <<FK>>
+    startedAt : timestamp
+    finishedAt : timestamp
+    closedAt : timestamp
 }
 
 ' Relationships
+' Zero or One	|o--
+' Exactly One	||--
+' Zero or Many	}o--
+' One or Many	}|--
 User ||--o{ Workspace : owns
-User ||--o{ WorkspaceMember : joins
-Workspace ||--o{ WorkspaceMember : has
+User ||--o{ Member : joins
+Workspace ||--o{ Member : has
 Workspace ||--o{ Task : has
 User ||--o{ Task : assigned
+User ||--o{ Task : created
 
 @enduml

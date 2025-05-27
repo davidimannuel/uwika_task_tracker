@@ -1,0 +1,15 @@
+@startuml task
+
+actor User
+
+User -right-> (Login)
+(Login) -down-> (Select Workspace)
+rectangle "Task" {
+  (Select Workspace) --> (Create Task)
+  (Select Workspace) --> (Read Task)
+  (Read Task) -> (Filter Task)
+  (Read Task) --> (Edit Task)
+  (Read Task) --> (Delete Task)
+  (Read Task) --> (Duplicate Task)
+}
+@enduml

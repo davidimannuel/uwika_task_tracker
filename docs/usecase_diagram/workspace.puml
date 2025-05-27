@@ -1,0 +1,19 @@
+@startuml workspace
+
+actor User
+actor "Invited User" as InvitedUser
+
+User -right-> (Login)
+(Login) -down-> (Invite Other User to Workspace)
+(Invite Other User to Workspace) --> InvitedUser
+InvitedUser --> (Leave Workspace Invitation)
+rectangle "Workspace" {
+  (Login) -> (Create Workspace)
+  (Login) --> (Read Workspace)
+  (InvitedUser) -> (Read Workspace)
+  (Create Workspace) --> (Read Workspace)
+  (Read Workspace) --> (Edit Workspace)
+  (Read Workspace) --> (Delete Workspace)
+  (Read Workspace) -> (Leave Workspace Invitation)
+}
+@enduml

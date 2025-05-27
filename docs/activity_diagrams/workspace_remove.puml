@@ -1,0 +1,32 @@
+@startuml workspace_remove
+title Remove Member or Leave Workspace Process
+
+|User|
+start
+:Select Member Action;
+
+if (Action?) then (Remove Member)
+  :Click Remove Member;
+  |System|
+  :Confirm Removal;
+  if (Confirmed?) then (yes)
+    :Remove Member;
+    :Show Success Message;
+  else (no)
+    :Cancel Removal;
+  endif
+else (Leave Workspace)
+  :Click Leave Workspace;
+  |System|
+  :Confirm Leaving;
+  if (Confirmed?) then (yes)
+    :Remove User from Workspace;
+    :Show Success Message;
+  else (no)
+    :Cancel Leaving;
+  endif
+endif
+
+stop
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml workspace_update
+title Update Workspace Process
+
+|User|
+start
+:Click Edit Workspace;
+
+|System|
+:Show Edit Form;
+
+|User|
+:Update Workspace Details;
+
+|System|
+:Validate Form;
+
+if (Valid?) then (yes)
+  :Update Workspace;
+  :Show Success Message;
+else (no)
+  :Show Validation Errors;
+endif
+
+stop
+
+@enduml

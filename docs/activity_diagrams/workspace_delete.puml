@@ -1,0 +1,20 @@
+@startuml workspace_delete
+title Delete Workspace Process
+
+|User|
+start
+:Click Delete Workspace;
+
+|System|
+:Confirm Deletion;
+
+if (Confirmed?) then (yes)
+  :Delete Workspace;
+  :Show Success Message;
+else (no)
+  :Cancel Deletion;
+endif
+
+stop
+
+@enduml

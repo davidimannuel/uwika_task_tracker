@@ -1,0 +1,20 @@
+@startuml task_delete
+title Delete Task Process
+
+|User|
+start
+:Click Delete Task;
+
+|System|
+:Confirm Deletion;
+
+if (Confirmed?) then (yes)
+  :Delete Task;
+  :Show Success Message;
+else (no)
+  :Cancel Deletion;
+endif
+
+stop
+
+@enduml

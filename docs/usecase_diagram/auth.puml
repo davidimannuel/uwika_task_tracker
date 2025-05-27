@@ -1,0 +1,17 @@
+@startuml auth
+
+actor User
+
+rectangle "Unauthenticated" {
+  User -> (Register)
+  (Register) --> (Login)
+}
+
+
+rectangle "Authenticated" {
+  (Login) --> (Logout)
+  (Login) --> (Edit Name)
+  (Login) --> (Edit Password)
+}
+
+@enduml
