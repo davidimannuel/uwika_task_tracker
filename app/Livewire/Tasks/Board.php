@@ -25,7 +25,7 @@ class Board extends Component
 
     public function mount()
     {
-        $this->workspaceId = Auth::user()->workspaces()->first()?->id;
+        $this->workspaceId = Auth::user()->workspaces()->first()?->workspace_id;
         if ($this->workspaceId) {
             $this->workspace = Workspace::findOrFail($this->workspaceId);
             $this->groupedTasks = [
