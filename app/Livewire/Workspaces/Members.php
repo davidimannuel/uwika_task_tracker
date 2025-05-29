@@ -47,18 +47,61 @@ class Members extends Component
         $this->dispatch('show-alert', message: 'User has been invited to the workspace.', type: 'success');
     }
 
+    public function promoteMember($memberId)
+    {
+        $member = Member::findOrFail($memberId);
+        $currentUserRole = $this->workspace->members()->where('user_id', Auth::id())->first()?->role;
+        
+        // Only owner can promote to owner
+        if ($currentUserRole === 'owner') {
+            if ($member->role === 'member') {
+                $member->update(['role' => 'admin']);
+                $this->dispatch('show-alert', message: 'Member has been promoted to admin.', type: 'success');
+            } elseif ($member->role === 'admin') {
+                // Swap roles - current owner becomes admin, admin becomes owner
+                $currentOwner = $this->workspace->members()->where('role', 'owner')->first();
+                $currentOwner->update(['role' => 'admin']);
+                $member->update(['role' => 'owner']);
+                $this->dispatch('show-alert', message: 'Admin has been promoted to owner.', type: 'success');
+            }
+        } elseif ($currentUserRole === 'admin') {
+            if ($member->role === 'member') {
+                $member->update(['role' => 'admin']);
+                $this->dispatch('show-alert', message: 'Member has been promoted to admin.', type: 'success');
+            }
+        }
+    }
+
+    public function demoteMember($memberId)
+    {
+        $member = Member::findOrFail($memberId);
+        $currentUserRole = $this->workspace->members()->where('user_id', Auth::id())->first()?->role;
+        
+        if ($currentUserRole === 'owner') {
+            if ($member->role === 'admin') {
+                $member->update(['role' => 'member']);
+                $this->dispatch('show-alert', message: 'Admin has been demoted to member.', type: 'success');
+            }
+        }
+    }
+
     public function removeMember($memberId)
     {
         $member = Member::findOrFail($memberId);
+        $currentUserRole = $this->workspace->members()->where('user_id', Auth::id())->first()?->role;
         
-        // Only allow admin/owner to remove members
-        if (!in_array($this->workspace->members()->where('user_id', Auth::id())->first()?->role, ['admin', 'owner'])) {
-            $this->dispatch('show-alert', message: 'You do not have permission to remove members.', type: 'error');
-            return;
+        // Owner can remove any member
+        if ($currentUserRole === 'owner') {
+            $member->delete();
+            $this->dispatch('show-alert', message: 'Member has been removed from the workspace.', type: 'success');
         }
-
-        $member->delete();
-        $this->dispatch('show-alert', message: 'Member has been removed from the workspace.', type: 'success');
+        // Admin can only remove members (not other admins or owner)
+        elseif ($currentUserRole === 'admin' && $member->role === 'member') {
+            $member->delete();
+            $this->dispatch('show-alert', message: 'Member has been removed from the workspace.', type: 'success');
+        } else {
+            $this->dispatch('show-alert', message: 'You do not have permission to remove this member.', type: 'error');
+        }
     }
 
     public function leave()

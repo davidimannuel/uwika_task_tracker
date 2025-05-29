@@ -48,10 +48,37 @@ use Illuminate\Support\Facades\Auth;
                                                 Leave
                                             </button>
                                         @endif
-                                    @elseif(in_array($workspace->members()->where('user_id', Auth::id())->first()?->role, ['admin', 'owner']))
-                                        <button class="btn btn-sm btn-outline-danger" wire:click="removeMember({{ $member->id }})" wire:confirm="Are you sure you want to remove this member?">
-                                            Remove
-                                        </button>
+                                    @else
+                                        @php
+                                            $currentUserRole = $workspace->members()->where('user_id', Auth::id())->first()?->role;
+                                        @endphp
+                                        
+                                        @if($currentUserRole === 'owner')
+                                            @if($member->role === 'member')
+                                                <button class="btn btn-sm btn-outline-primary me-1" wire:click="promoteMember({{ $member->id }})" wire:confirm="Are you sure you want to promote this member to admin?">
+                                                    Promote to Admin
+                                                </button>
+                                            @elseif($member->role === 'admin')
+                                                <button class="btn btn-sm btn-outline-success me-1" wire:click="promoteMember({{ $member->id }})" wire:confirm="Are you sure you want to make this admin the owner? You will become an admin.">
+                                                    Make Owner
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning me-1" wire:click="demoteMember({{ $member->id }})" wire:confirm="Are you sure you want to demote this admin to member?">
+                                                    Demote to Member
+                                                </button>
+                                            @endif
+                                            <button class="btn btn-sm btn-outline-danger" wire:click="removeMember({{ $member->id }})" wire:confirm="Are you sure you want to remove this member?">
+                                                Remove
+                                            </button>
+                                        @elseif($currentUserRole === 'admin')
+                                            @if($member->role === 'member')
+                                                <button class="btn btn-sm btn-outline-primary me-1" wire:click="promoteMember({{ $member->id }})" wire:confirm="Are you sure you want to promote this member to admin?">
+                                                    Promote to Admin
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" wire:click="removeMember({{ $member->id }})" wire:confirm="Are you sure you want to remove this member?">
+                                                    Remove
+                                                </button>
+                                            @endif
+                                        @endif
                                     @endif
                                 </td>
                             </tr>
