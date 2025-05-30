@@ -3,17 +3,19 @@
 actor User
 actor "Invited User" as InvitedUser
 
-User -right-> (Login)
-(Login) -down-> (Invite Other User to Workspace)
-(Invite Other User to Workspace) --> InvitedUser
-InvitedUser --> (Leave Workspace Invitation)
 rectangle "Workspace" {
-  (Login) -> (Create Workspace)
-  (Login) --> (Read Workspace)
-  (InvitedUser) -> (Read Workspace)
+  User -right-> (Create Workspace)
+  User -right-> (Read Workspace)
+  User -right-> (Edit Workspace)
+  User -right-> (Delete Workspace)
+  User -right-> (Invite Other User to Workspace)
+  InvitedUser -right-> (Read Workspace)
+  InvitedUser -right-> (Leave Workspace Invitation)
+  
   (Create Workspace) --> (Read Workspace)
   (Read Workspace) --> (Edit Workspace)
   (Read Workspace) --> (Delete Workspace)
-  (Read Workspace) -> (Leave Workspace Invitation)
+  (Invite Other User to Workspace) --> InvitedUser
 }
+
 @enduml

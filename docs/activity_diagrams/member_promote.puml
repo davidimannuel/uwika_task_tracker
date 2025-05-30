@@ -1,0 +1,36 @@
+@startuml member_promote
+title Promote Member Process
+
+|User|
+start
+:Click Promote Member;
+
+|System|
+:Check Current User Role;
+
+if (Current User is Owner?) then (yes)
+  if (Target Member is Member?) then (yes)
+    :Promote to Admin;
+    :Show Success Message;
+  else if (Target Member is Admin?) then (yes)
+    :Swap Roles;
+    :Current Owner becomes Admin;
+    :Admin becomes Owner;
+    :Show Success Message;
+  else (no)
+    :Show Error Message;
+  endif
+else if (Current User is Admin?) then (yes)
+  if (Target Member is Member?) then (yes)
+    :Promote to Admin;
+    :Show Success Message;
+  else (no)
+    :Show Error Message;
+  endif
+else (no)
+  :Show Error Message;
+endif
+
+stop
+
+@enduml 

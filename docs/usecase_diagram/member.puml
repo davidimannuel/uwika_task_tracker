@@ -1,0 +1,20 @@
+@startuml workspace_member
+
+actor "Owner" as Owner
+actor "Admin" as Admin
+actor "Member" as Member
+
+rectangle "Member Management" {
+  Owner -right-> (Promote Member)
+  Owner -right-> (Demote Member)
+  Owner -right-> (Remove Member)
+  Admin -right-> (Promote Member)
+  Admin -right-> (Remove Member)
+  Member -right-> (Leave Workspace)
+  
+  (Promote Member) --> (Demote Member)
+  (Promote Member) --> (Remove Member)
+  (Demote Member) --> (Remove Member)
+}
+
+@enduml 

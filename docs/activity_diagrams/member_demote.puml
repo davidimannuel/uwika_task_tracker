@@ -1,0 +1,24 @@
+@startuml member_demote
+title Demote Member Process
+
+|User|
+start
+:Click Demote Member;
+
+|System|
+:Check Current User Role;
+
+if (Current User is Owner?) then (yes)
+  if (Target Member is Admin?) then (yes)
+    :Demote to Member;
+    :Show Success Message;
+  else (no)
+    :Show Error Message;
+  endif
+else (no)
+  :Show Error Message;
+endif
+
+stop
+
+@enduml 
