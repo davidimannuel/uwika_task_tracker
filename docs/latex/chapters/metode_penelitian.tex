@@ -62,43 +62,67 @@ Metodologi ini terdiri atas beberapa tahapan:
     \item Membantu pengguna membangun kebiasaan yang konsisten dalam menyelesaikan tugas-tugasnya. 
     \item Memberikan antarmuka yang sederhana dan mudah digunakan, sehingga bisa digunakan oleh siapa saja dalam berbagai aktivitas sehari-hari. 
     \item Menyediakan fitur workspace agar pengguna dapat mengelola aktivitas dalam konteks kerja sama tim atau proyek tertentu.
+    \item Menyediakan fitur role management agar pengguna melakukan promosi / demosi pada member dalam workspace tersebut.
 \end{itemize}
 
 \subsection*{3.4 Batasan Projek Task Tracker}
 \begin{itemize}
-    \item User Management
+    \item User Management \\
     fitur ini mencakup fitur registrasi dan login user, sehingga data pada website bisa terhubung sesuai dengan user yang sedang login.
     website juga mempunyai menu profile sehingga user bisa mengupdate nama user dan password jika dibutuhkan
-    \item Wokspace Management
-    Fitur workspace berguna agar user bisa 
-    \item Task Management
-    \item Task Board
-    \item Dashboard  
+    \item Workspace Management \\
+    fitur ini berguna agar user bisa membuat workspace baru, mengedit workspace, menghapus workspace, dan mengundang user lain untuk bergabung ke dalam workspace tersebut.
+    \item Role Management \\
+    fitur ini berguna agar user melakukan manajemen role pada workspace tersebut, seperti promosi / demosi member, role di dalam workspace dibagi menjadi 3 yaitu member, admin, dan owner.
+    \\ tugas dari masing-masing role adalah sebagai berikut:
+    \begin{itemize}
+      \item Owner: bisa melakukan manajemen task (CRUD), invite user lain ke dalam workspace, menghapus member, menghapus workspace, dan promosi / demosi member.
+      owner juga bisa memindahkan privilige owner kepada admin lainnya, di case tersebut owner akan menjadi admin.
+      \item Admin: bisa melakukan manajemen task (CRUD), promosi admin dan menghapus member.
+      \item Member: bisa melihat dan menggeser task status.
+    \end{itemize}
+    \item Task Management \\
+    fitur ini berguna agar user bisa membuat task baru, mengedit task, menghapus task, dan menugaskan user ke dalam task tersebut.
+    \item Task Board \\
+    di halaman ini user bisa melihat task dalam bentuk board, board terdiri dari 3 status yaitu todo, in progress, dan done. 
+    sehingga user lebih mudah mengelola task yang ada di dalam workspace tersebut.
+    \item Dashboard \\
+    Fitur dashboard berguna agar user bisa melihat summary dari semua task di dalam workspace yang diikuti oleh pengguna.
 \end{itemize}
 
 \subsection*{3.5 Usecase Diagram}
 \begin{itemize}
   \item User Management
-  \newline
   \begin{center}
-    \includegraphics[width=0.4\textwidth]{assets/usecase_diagrams/auth.png}
+    \includegraphics[width=0.5\textwidth]{assets/usecase_diagrams/auth.png}
     \captionof{figure}{Usecase Diagram User Management}
   \end{center}
+  pada usecase diagram diatas ini dijelaskan bahwa user yang belum terautentikasi bisa melakukan registrasi terlebih dahulu untuk bisa menggunakan aplikasi ini.
+  setelah melakukan registrasi, user bisa melakukan login untuk bisa menggunakan aplikasi ini. user juga bisa mengubah profile yang sudah dibuat (nama dan password).
+  setelah login, user bisa melakukan logout untuk bisa keluar dari aplikasi ini.
   \item Workspace Management
-  \newline
   \begin{center}
-    \includegraphics[width=0.4\textwidth]{assets/usecase_diagrams/workspace.png}
+    \includegraphics[width=0.8\textwidth]{assets/usecase_diagrams/workspace.png}
     \captionof{figure}{Usecase Diagram Workspace Management}
   \end{center}
-  \item Task Management
-  \newline
+  pada usecase diagram diatas ini dijelaskan bahwa user bisa membuat workspace baru, mengedit workspace, menghapus workspace, dan mengundang user lain untuk bergabung ke dalam workspace tersebut.
+  \item Role Management
   \begin{center}
-    \includegraphics[width=0.4\textwidth]{assets/usecase_diagrams/task.png}
+    \includegraphics[width=0.5\textwidth]{assets/usecase_diagrams/role.png}
+    \captionof{figure}{Usecase Diagram Role Management}
+  \end{center}
+  pada usecase diagram diatas ini dijelaskan bahwa user bisa melakukan manajemen role pada workspace tersebut, seperti promosi / demosi member, role di dalam workspace dibagi menjadi 3 yaitu member, admin, dan owner.
+  \item Task Management
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{assets/usecase_diagrams/task.png}
     \captionof{figure}{Usecase Diagram Task Management}
   \end{center}
+  pada usecase diagram diatas ini dijelaskan bahwa untuk role admin dan owner bisa melakukan manajemen task (CRUD),
+  sedangkan untuk role member bisa melihat dan menggeser task status.
 \end{itemize}
 
 \subsection*{3.6 Class Diagram}
+ini adalah class diagram yang menjelaskan model data dan hubungan antar data yang ada pada sistem.
 \begin{center}
   \includegraphics[width=1\textwidth]{assets/class_diagram.png}
   \captionof{figure}{Class Diagram}
@@ -108,78 +132,118 @@ Metodologi ini terdiri atas beberapa tahapan:
 
 \subsubsection*{User Management}
 \begin{center}
+    \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/user_register.png}
+    \captionof{figure}{Activity Diagram User Register}
+\end{center}
+pada activity diagram diatas menjelaskan bahwa user bisa melakukan registrasi agar bisa menggunakan aplikasi ini.
+
+\begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/user_login.png}
     \captionof{figure}{Activity Diagram User Login}
 \end{center}
-
+pada activity diagram diatas menjelaskan bahwa user bisa melakukan login agar bisa mengunakan fitur-fitur yang ada pada aplikasi ini.
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/user_logout.png}
     \captionof{figure}{Activity Diagram User Logout}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa setelah login, user bisa melakukan logout untuk bisa keluar dari aplikasi ini.
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/user_profile_update_name.png}
     \captionof{figure}{Activity Diagram User Profile Update Name}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user bisa mengubah nama user yang sudah dibuat.
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/user_profile_update_password.png}
     \captionof{figure}{Activity Diagram User Profile Update Password}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user bisa mengubah password user yang sudah dibuat.
 
 \subsubsection*{Workspace Management}
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/workspace_create.png}
     \captionof{figure}{Activity Diagram Workspace Create}
 \end{center}
-
+pada activity diagram diatas menjelaskan bahwa user bisa membuat workspace baru.
+user akan menjadi owner dari workspace yang dibuat.
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/workspace_update.png}
     \captionof{figure}{Activity Diagram Workspace Update}
 \end{center}
-
+pada activity diagram diatas menjelaskan bahwa user bisa mengubah workspace yang sudah dibuat.
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/workspace_invite.png}
     \captionof{figure}{Activity Diagram Workspace Invite}
 \end{center}
-
+pada activity diagram diatas menjelaskan bahwa user bisa mengundang user lain untuk bergabung ke dalam workspace tersebut.
+member baru otomatis memiliki role member.
 \begin{center}
     \includegraphics[width=0.8\textwidth]{assets/activity_diagrams/workspace_remove.png}
     \captionof{figure}{Activity Diagram Workspace Remove}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user bisa menghapus workspace yang sudah dibuat.
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{assets/activity_diagrams/member_promote.png}
+    \captionof{figure}{Activity Diagram Member Promote}
+\end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan owner bisa melakukan promosi member menjadi role admin dan sebaliknya.
+setelah member di promosi menjadi admin, member juga bisa di promosikan menjadi owner. sehingga owner yang lama akan menjadi admin.
+sedangkan user dengan owner admin bisa melakukan promosi dari member menjadi admin.
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{assets/activity_diagrams/member_demote.png}
+    \captionof{figure}{Activity Diagram Member Demote}
+\end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan role owner bisa melakukan demosi admin menjadi member.
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/workspace_delete.png}
     \captionof{figure}{Activity Diagram Workspace Delete}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan role owner bisa menghapus workspace yang sudah dibuat.
 
 \subsubsection*{Task Management}
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/task_create.png}
     \captionof{figure}{Activity Diagram Task Create}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan role admin dan owner bisa membuat task baru.
 
 \begin{center}
     \includegraphics[width=1\textwidth]{assets/activity_diagrams/task_read.png}
     \captionof{figure}{Activity Diagram Task Read}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan semua role bisa melihat task yang ada di dalam workspace tersebut.
+disediakan juga fitur filter dan search untuk memudahkan user dalam mencari task yang dibutuhkan.
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/task_update.png}
     \captionof{figure}{Activity Diagram Task Update}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan role admin dan owner bisa mengubah task yang sudah dibuat.
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{assets/activity_diagrams/task_status_update.png}
+    \captionof{figure}{Activity Diagram Task Status Update}
+\end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan role admin dan owner bisa mengubah status task yang sudah dibuat.
+untuk status task yang tersedia adalah todo, in progress, dan done. dari status todo, user bisa mengubah status menjadi in progress.
+dari status in progress, user bisa mengubah status menjadi done. dan dari status done, user bisa mengubah status menjadi closed. 
+closed adalah status task yang sudah selesai dan tidak aktif lagi (diarsipkan), task dengan status closed tidak akan muncul di board task.
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/task_delete.png}
     \captionof{figure}{Activity Diagram Task Delete}
 \end{center}
+pada activity diagram diatas menjelaskan bahwa user dengan role admin dan owner bisa menghapus task yang sudah dibuat.
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{assets/activity_diagrams/task_duplicate.png}
     \captionof{figure}{Activity Diagram Task Duplicate}
 \end{center}
-
+pada activity diagram diatas menjelaskan bahwa user dengan role admin dan owner bisa menyalin task yang sudah dibuat.
+sehingga memudahkan user untuk membuat task baru yang mirip dengan task yang sudah ada.
 \subsection*{3.8 ERD}
 \begin{center}
   \includegraphics[width=0.8\textwidth]{assets/erd.png}

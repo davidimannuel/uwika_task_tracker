@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="card-title">Workspace Members ({{ $workspace->name }})</h5>
-                @if(in_array($workspace->members()->where('user_id', Auth::id())->first()?->role, ['admin', 'owner']))
+                @if(in_array($workspace->members()->where('user_id', Auth::id())->first()?->role, ['owner']))
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inviteModal">
                         Invite Member
                     </button>

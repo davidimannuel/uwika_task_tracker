@@ -1,15 +1,37 @@
 @startuml task
 
 actor User
+actor Owner
+actor Admin
+actor Member
 
 User -right-> (Login)
 (Login) -down-> (Select Workspace)
-rectangle "Task" {
-  (Select Workspace) --> (Create Task)
-  (Select Workspace) --> (Read Task)
-  (Read Task) -> (Filter Task)
-  (Read Task) --> (Edit Task)
-  (Read Task) --> (Delete Task)
-  (Read Task) --> (Duplicate Task)
+
+(Select Workspace) -down-> (Owner)
+(Select Workspace) -down-> (Admin)
+(Select Workspace) -down-> (Member)
+
+rectangle "Write Task" {
+  (Owner) --> (Write Task)
+  (Admin) --> (Write Task)
+  (Write Task) -down-> (Create Task)
+  (Write Task) -down-> (Edit Task)
+  (Write Task) -down-> (Delete Task)
+  (Write Task) -down-> (Duplicate Task)
 }
+
+(Write Task) -right-> (Read Task)
+
+
+rectangle "Read Task" {
+  (Member) -down-> (Read Task)
+  (Read Task) -down-> (List Task)
+  (List Task) -down-> (Filter Task)
+}
+
+(Write Task) -down-> (Move Task Status)
+(Read Task) -down-> (Move Task Status)
+
+
 @enduml

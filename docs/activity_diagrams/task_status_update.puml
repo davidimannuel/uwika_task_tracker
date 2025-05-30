@@ -1,0 +1,44 @@
+@startuml task_status_update
+title Task Status Update Process
+
+|User|
+start
+:View Task Board;
+
+|System|
+:Check User Permission;
+
+if (Can Update Status?) then (yes)
+  |User|
+  :Click Status Update Button;
+  
+  |System|
+  :Show Confirmation Dialog;
+  
+  |User|
+  if (Confirm Update?) then (yes)
+    |System|
+    :Update Task Status;
+    if (Current Status == "todo") then (yes)
+      :Change to in_progress;
+      :Set started_at timestamp;
+    else if (Current Status == "in_progress") then (yes)
+      :Change to done;
+      :Set finished_at timestamp;
+    else if (Current Status == "done") then (yes)
+      :Change to closed;
+      :Set closed_at timestamp;
+    endif
+    :Save Task Changes;
+    :Show Success Message;
+  else (no)
+    :Cancel Update;
+  endif
+else (no)
+  |System|
+  :Hide Status Update Button;
+endif
+
+stop
+
+@enduml 

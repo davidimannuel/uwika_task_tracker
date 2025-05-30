@@ -4,17 +4,17 @@ actor User
 actor "Invited User" as InvitedUser
 
 rectangle "Workspace" {
-  User -right-> (Create Workspace)
-  User -right-> (Read Workspace)
-  User -right-> (Edit Workspace)
-  User -right-> (Delete Workspace)
-  User -right-> (Invite Other User to Workspace)
-  InvitedUser -right-> (Read Workspace)
-  InvitedUser -right-> (Leave Workspace Invitation)
+  User -down-> (Create Workspace)
+  User -down-> (Read Workspace)
+  User -down-> (Edit Workspace)
+  User -down-> (Delete Workspace)
+  User -down-> (Invite Other User to Workspace)
+  InvitedUser -up-> (Read Workspace)
+  InvitedUser -up-> (Leave Workspace Invitation)
   
   (Create Workspace) --> (Read Workspace)
-  (Read Workspace) --> (Edit Workspace)
-  (Read Workspace) --> (Delete Workspace)
+  (Read Workspace) -up-> (Edit Workspace)
+  (Read Workspace) -up-> (Delete Workspace)
   (Invite Other User to Workspace) --> InvitedUser
 }
 
