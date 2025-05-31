@@ -219,6 +219,7 @@ class Board extends Component
         if ($task) {
             $this->authorize('delete', $task);
             $task->delete();
+            $this->applyFilters();
             $this->dispatch('task-deleted', message: 'Task deleted successfully');
         }
     }
