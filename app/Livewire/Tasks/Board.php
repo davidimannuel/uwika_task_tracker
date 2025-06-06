@@ -23,20 +23,28 @@ class Board extends Component
     public $filterDueEndDate = '';
     public $groupedTasks = [];
 
-    public function mount()
+    public function mount(?Workspace $workspace = null)
     {
-        $this->workspaceId = Auth::user()->workspaces()->first()?->workspace_id;
-        if ($this->workspaceId) {
-            $this->workspace = Workspace::findOrFail($this->workspaceId);
+        if ($workspace) {
+            $this->workspaceId = $workspace->id;
+            $this->workspace = $workspace;
+        } else {
+            $this->workspaceId = Auth::user()->workspaces()->first()?->workspace_id;
+            if ($this->workspaceId) {
+                $this->workspace = Workspace::findOrFail($this->workspaceId);
+            }
+        }
+
+        if ($this->workspace) {
             $this->groupedTasks = [
                 'todo' => [],
                 'in_progress' => [],
                 'done' => []
             ];
 
-            // Set default date range (1 week back and 1 week ahead)
-            $this->filterStartDate = now()->subWeek()->format('Y-m-d');
-            $this->filterEndDate = now()->addWeek()->format('Y-m-d');
+            // Set default date range (2 week back and 2 week ahead)
+            $this->filterStartDate = now()->subWeeks(2)->format('Y-m-d');
+            $this->filterEndDate = now()->addWeeks(2)->format('Y-m-d');
             
             $this->applyFilters();
         }
@@ -189,7 +197,7 @@ class Board extends Component
     {
         $task = Task::find($taskId);
         if ($task) {
-            $this->authorize('update', $task);
+            $this->authorize('updateStatus', $task);
 
             $oldStatus = $task->status;
             $task->status = $status;

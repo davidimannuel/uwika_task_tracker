@@ -29,7 +29,7 @@
                     >
                         <option value="">All Users</option>
                         @foreach($workspace->members as $member)
-                            <option value="{{ $member->user->id }}">{{ $member->user->name }}</option>
+                            <option value="{{ $member->user->id }}">{{ $member->user->name }} ({{ $member->role }})</option>
                         @endforeach
                     </select>
                     @if($filterAssignee)

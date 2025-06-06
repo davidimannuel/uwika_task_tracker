@@ -26,8 +26,8 @@ class Index extends Component
     public function mount(Workspace $workspace)
     {
         $this->workspace = $workspace;
-        $this->scheduledAtStart = Carbon::now()->subWeeks(2)->format('Y-m-d');
-        $this->scheduledAtEnd = Carbon::now()->addWeeks(2)->format('Y-m-d');
+        $this->scheduledAtStart = Carbon::now()->subMonths(3)->format('Y-m-d');
+        $this->scheduledAtEnd = Carbon::now()->addMonths(3)->format('Y-m-d');
     }
 
     public function updatedOrderBy()

@@ -1,8 +1,7 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="mb-0">Tasks</h2>
-            <small class="text-muted">{{ $workspace->name }}</small>
+            <h2 class="mb-0">Tasks of {{ $workspace->name }}</h2>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('workspaces.tasks.board', $workspace) }}" class="btn btn-primary">

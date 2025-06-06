@@ -67,10 +67,16 @@ class TaskPolicy
             ->exists();
     }
 
+    /**
+     * Determine whether the user can update the status of the task.
+     */
     public function updateStatus(User $user, Task $task): bool
     {
         if ($task->status === 'closed') {
             return false;
+        }
+        if ($task->assigned_to == $user->id) {
+            return true;
         }
         // admin, owner, atau assignee
         return $task->workspace->members()
