@@ -19,16 +19,12 @@ class Dashboard extends Component
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
 
-        $workspaceIds = Workspace::whereHas('members', function($q) {
-            $q->where('user_id', Auth::id());
-        })->pluck('id');
-
         return [
-            'total_this_quarter' => Task::whereIn('workspace_id', $workspaceIds)
+            'total_this_quarter' => Task::where('assigned_to', Auth::id())
                 ->whereBetween('created_at', [$startOfQuarter, $endOfQuarter])
                 ->count(),
 
-            'due_this_month_tasks' => Task::whereIn('workspace_id', $workspaceIds)
+            'due_this_month_tasks' => Task::where('assigned_to', Auth::id())
                 ->whereBetween('due_at', [$startOfMonth, $endOfMonth])
                 ->where('status', '!=', 'done')
                 ->with(['workspace'])
@@ -36,14 +32,14 @@ class Dashboard extends Component
                 ->take(3)
                 ->get(),
 
-            'in_progress_tasks' => Task::whereIn('workspace_id', $workspaceIds)
+            'in_progress_tasks' => Task::where('assigned_to', Auth::id())
                 ->where('status', 'in_progress')
                 ->with(['workspace'])
-                ->latest()
+                ->orderBy('updated_at', 'desc')
                 ->take(3)
                 ->get(),
 
-            'completed_this_month' => Task::whereIn('workspace_id', $workspaceIds)
+            'completed_this_month' => Task::where('assigned_to', Auth::id())
                 ->where('status', 'done')
                 ->whereBetween('finished_at', [$startOfMonth, $endOfMonth])
                 ->count(),
@@ -65,11 +61,7 @@ class Dashboard extends Component
 
     public function getUpcomingTasks()
     {
-        $workspaceIds = Workspace::whereHas('members', function($q) {
-            $q->where('user_id', Auth::id());
-        })->pluck('id');
-
-        return Task::whereIn('workspace_id', $workspaceIds)
+        return Task::where('assigned_to', Auth::id())
             ->where('status', '!=', 'done')
             ->where('due_at', '>=', now())
             ->where('due_at', '<=', now()->addDays(7))
@@ -90,6 +82,7 @@ class Dashboard extends Component
                 ->where('assigned_to', Auth::id())
                 ->where('status', 'todo')
                 ->with(['workspace'])
+                ->orderBy('due_at')
                 ->take(3)
                 ->get(),
 
@@ -97,6 +90,7 @@ class Dashboard extends Component
                 ->where('assigned_to', Auth::id())
                 ->where('status', 'in_progress')
                 ->with(['workspace'])
+                ->orderBy('due_at')
                 ->take(3)
                 ->get(),
 
@@ -104,6 +98,7 @@ class Dashboard extends Component
                 ->where('assigned_to', Auth::id())
                 ->where('status', 'done')
                 ->with(['workspace'])
+                ->orderBy('finished_at')
                 ->take(3)
                 ->get(),
         ];
