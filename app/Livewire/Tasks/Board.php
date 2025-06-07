@@ -50,6 +50,31 @@ class Board extends Component
         }
     }
 
+    public function updatedFilterAssignee()
+    {
+        $this->applyFilters();
+    }
+
+    public function updatedFilterStartDate()
+    {
+        $this->applyFilters();
+    }
+
+    public function updatedFilterEndDate()
+    {
+        $this->applyFilters();
+    }
+
+    public function updatedFilterDueStartDate()
+    {
+        $this->applyFilters();
+    }
+
+    public function updatedFilterDueEndDate()
+    {
+        $this->applyFilters();
+    }
+
     public function setDateRange($range)
     {
         switch ($range) {
@@ -90,23 +115,32 @@ class Board extends Component
 
     public function clearScheduledDateFilter()
     {
-        $this->filterStartDate = null;
-        $this->filterEndDate = null;
+        $this->filterStartDate = '';
+        $this->filterEndDate = '';
+        $this->applyFilters();
     }
 
     public function clearDueDateFilter()
     {
-        $this->filterDueStartDate = null;
-        $this->filterDueEndDate = null;
+        $this->filterDueStartDate = '';
+        $this->filterDueEndDate = '';
+        $this->applyFilters();
+    }
+
+    public function clearAssigneeFilter()
+    {
+        $this->filterAssignee = '';
+        $this->applyFilters();
     }
 
     public function clearAllFilters()
     {
         $this->filterAssignee = '';
-        $this->filterStartDate = null;
-        $this->filterEndDate = null;
-        $this->filterDueStartDate = null;
-        $this->filterDueEndDate = null;
+        $this->filterStartDate = '';
+        $this->filterEndDate = '';
+        $this->filterDueStartDate = '';
+        $this->filterDueEndDate = '';
+        $this->applyFilters();
     }
 
     public function applyFilters()
@@ -119,7 +153,7 @@ class Board extends Component
             ->with(['creator:id,name,email', 'assignee:id,name,email'])
             ->whereNotIn('status', ['closed']);
 
-        if ($this->filterAssignee) {
+        if ($this->filterAssignee !== '') {
             $query->where('assigned_to', $this->filterAssignee);
         }
 
@@ -170,11 +204,6 @@ class Board extends Component
         
         // Apply filters with new workspace
         $this->applyFilters();
-    }
-
-    public function clearAssigneeFilter()
-    {
-        $this->filterAssignee = '';
     }
 
     public function closeCreateForm()
@@ -277,40 +306,10 @@ class Board extends Component
             ]);
         }
 
-        $query = $workspace->tasks()
-            ->with(['creator:id,name,email', 'assignee:id,name,email'])
-            ->whereNotIn('status', ['closed']);
-
-        if ($this->filterStartDate && $this->filterEndDate) {
-            $query->whereBetween('scheduled_at', [
-                Carbon::parse($this->filterStartDate)->startOfDay(),
-                Carbon::parse($this->filterEndDate)->endOfDay()
-            ]);
-        }
-
-        if ($this->filterDueStartDate && $this->filterDueEndDate) {
-            $query->whereBetween('due_at', [
-                Carbon::parse($this->filterDueStartDate)->startOfDay(),
-                Carbon::parse($this->filterDueEndDate)->endOfDay()
-            ]);
-        }
-
-        if ($this->filterAssignee) {
-            $query->where('assigned_to', $this->filterAssignee);
-        }
-
-        $tasks = $query->get()->sortBy('scheduled_at');
-
-        $groupedTasks = [
-            'todo' => $tasks->where('status', 'todo')->all(),
-            'in_progress' => $tasks->where('status', 'in_progress')->all(),
-            'done' => $tasks->where('status', 'done')->all(),
-        ];
-
         return view('livewire.tasks.board', [
             'workspaces' => $workspaces,
             'workspace' => $workspace,
-            'groupedTasks' => $groupedTasks,
+            'groupedTasks' => $this->groupedTasks,
         ]);
     }
 } 

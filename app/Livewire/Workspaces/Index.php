@@ -35,9 +35,9 @@ class Index extends Component
 
     public function render()
     {
-        // sleep(3); // Simulate a delay for loading data, so you can see the placeholder in action
         $workspaces = null;
         if ($this->loadWorkspacesData) {
+            // sleep(3); // Simulate a delay for loading data, so you can see the placeholder in action
             $workspaces = Workspace::query()
                 ->with([
                     'creator:id,name,email',
