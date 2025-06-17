@@ -12,3 +12,25 @@ migrate-fresh:
 
 migrate-fresh-seed:
 	php artisan migrate:fresh --seed
+
+docker-run-dev:
+	docker compose -f compose.dev.yaml up --build -d
+
+build-vite:
+	npm run build
+
+docker-migrate-dev:
+	docker-compose -f compose.dev.yaml exec php-fpm php artisan migrate
+
+docker-stop-dev:
+	docker compose -f compose.dev.yaml down
+
+docker-run-prod:
+	docker compose -f compose.prod.yaml up --build -d
+
+docker-migrate-prod:
+	docker-compose -f compose.prod.yaml exec php-fpm php artisan migrate
+
+
+docker-stop-prod:
+	docker compose -f compose.prod.yaml down
