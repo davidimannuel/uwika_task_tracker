@@ -57,11 +57,15 @@ services:
     restart: unless-stopped
     user: postgres
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      # - "${POSTGRES_PORT:-5432}:5432"
+      - "5432"
     environment:
-      - POSTGRES_DB=${POSTGRES_DATABASE:-app}
-      - POSTGRES_USER=${POSTGRES_USERNAME:-laravel}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secret}
+      # - POSTGRES_DB=${POSTGRES_DATABASE:-app}
+      # - POSTGRES_USER=${POSTGRES_USERNAME:-laravel}
+      # - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secret}
+      - POSTGRES_DB=task_tracker
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=s3cret
     volumes:
       - postgres-data-production:/var/lib/postgresql/data
     networks:
