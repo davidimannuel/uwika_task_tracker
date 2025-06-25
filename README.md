@@ -28,12 +28,10 @@ This project is built using the following technologies:
 
 ---
 
-## How to Run the Project
+<!-- ## How to Run the Project
 ### Prerequisites
 Ensure you have the following installed:
 - Docker and Docker Compose
-- Node.js and npm
-- Composer
 
 ### Steps
 1. Clone the repository:
@@ -48,6 +46,7 @@ Ensure you have the following installed:
 3. install depdencies
     ```bash
     composer install
+    docker-compose -f compose.dev.yaml exec php-fpm composer install
     ```
 4. build vite
     ```bash
@@ -61,5 +60,7 @@ Ensure you have the following installed:
     ```bash
     docker-compose -f compose.dev.yaml exec php-fpm php artisan migrate
     ```
-7. open http://127.0.0.1:8080/ in web browser
+7. open http://127.0.0.1:8080/ in web browser -->
   
+## Deployed App
+open http://103.87.67.225/login

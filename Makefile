@@ -24,3 +24,7 @@ docker-migrate-dev:
 
 docker-stop-dev:
 	docker compose -f compose.dev.yaml down
+
+docker-run-prod:
+	docker compose -f compose.prod.yaml down
+	docker compose -f compose.prod.yaml up --build -d
