@@ -24,13 +24,3 @@ docker-migrate-dev:
 
 docker-stop-dev:
 	docker compose -f compose.dev.yaml down
-
-docker-run-prod:
-	docker compose -f compose.prod.yaml up --build -d
-
-docker-migrate-prod:
-	docker-compose -f compose.prod.yaml exec php-fpm php artisan migrate
-
-
-docker-stop-prod:
-	docker compose -f compose.prod.yaml down
