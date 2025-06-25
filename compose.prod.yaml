@@ -53,7 +53,7 @@ services:
         condition: service_healthy
 
   postgres:
-    image: postgres:16
+    image: postgres:14.1-alpine
     restart: unless-stopped
     user: postgres
     ports:
@@ -77,22 +77,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  redis:
-    image: redis:alpine
-    restart: unless-stopped  # Automatically restart unless the service is explicitly stopped
-    networks:
-      - laravel-production
-    # Health check for Redis
-    # -----------------------------------------------------------
-    # Checks if Redis is responding to the 'PING' command.
-    # This ensures that the service is not only running but also operational.
-    # -----------------------------------------------------------
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
 networks:
   # Attach the service to the 'laravel' network.
