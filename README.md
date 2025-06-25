@@ -61,3 +61,5 @@ Ensure you have the following installed:
     ```bash
     docker-compose -f compose.dev.yaml exec php-fpm php artisan migrate
     ```
+7. open http://127.0.0.1:8080/ in web browser
+  
