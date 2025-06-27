@@ -29,7 +29,7 @@ This project is built using the following technologies:
 ---
 
 ## How to Run the Project
-<!-- ### Prerequisites
+### Prerequisites
 Ensure you have the following installed:
 - Docker and Docker Compose
 
@@ -43,24 +43,30 @@ Ensure you have the following installed:
     ```bash
     cp .env.dev .env
     ```
-3. install depdencies
+3. Build docker
     ```bash
-    composer install
-    docker-compose -f compose.dev.yaml exec php-fpm composer install
+    docker compose -f compose.dev.yaml build --no-cache
     ```
-4. build vite
+4. Run docker compose
     ```bash
-    docker compose -f compose.prod.yaml exec uwika-task-tracker-php-fpm-production npm build
+    docker compose -f compose.dev.yaml up -d
     ```
-5. run app via docker compose
+5. Open workspace container to run neccesary command
     ```bash
-    docker compose -f compose.dev.yaml up --build -d
+    docker exec -it uwika-task-tracker-development-workspace bash
     ```
-6. database migrate
+5. After inside workpsace container run some commands
     ```bash
-    docker-compose -f compose.dev.yaml exec php-fpm php artisan migrate
+    composer install # install laravel project depedencies
+    php artisan migrate # migrate
+    npm run dev -- --host # run npm --host for expose
     ```
-7. open http://127.0.0.1:8080/ in web browser -->
+5. After running open http://127.0.0.1:8080/ in web browser
+
+6. Stop application
+    ```bash
+    docker compose -f compose.dev.yaml down
+    ```
   
 ## How to deploy
 ### Prerequisites
@@ -85,7 +91,7 @@ Ensure you have the following installed:
     ```bash
     docker compose -f compose.prod.yaml up -d
     ```
-5. After running please check
+5. After running please check on the browser
 6. Stop application
     ```bash
     docker compose -f compose.prod.yaml down
